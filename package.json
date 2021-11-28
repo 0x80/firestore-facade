@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "files": ["dist"],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No test specified\" && exit 0",
     "build": "tsc"
   },
   "author": "Thijs Koerselman",
