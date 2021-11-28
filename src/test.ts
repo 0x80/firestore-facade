@@ -8,28 +8,31 @@ import { firestore } from "./firebase-client";
 (async function run() {
   const db = createFacade(firestore);
 
-  const doc = await db.collectionA.add({
+  const ref = await db.collection_a.add({
     a: "hi",
     b: 123,
     nested: { c: true, d: ["one", "two", "three"] },
   });
 
-  await db.collectionA.set(doc.id, {
+  await db.collection_a.set(ref.id, {
     a: "hi",
     b: 123,
     nested: { c: true, d: ["one", "two", "three"] },
   });
 
-  await db.collectionA.update(doc.id, { a: "bye", b: 321 });
-  await db.collectionA.update(doc.id, { "nested.c": false });
+  await db.collection_a.update(ref.id, { a: "bye", b: 321 });
+  await db.collection_a.update(ref.id, { "nested.c": false });
 
-  const finalDoc = await db.collectionA.get(doc.id);
+  const doc = await db.collection_a.get(ref.id);
 
-  console.log(finalDoc.data);
+  console.log(doc.data);
 
-  await db.collectionB.add({
-    a: "hi",
-    b: 123,
-    nested: { c: true, d: ["one", "two", "three"] },
+  await db.collection_b.add({
+    ba: "hi",
+    bb: 123,
+  });
+
+  await db.collection_a.collection_sub.add(ref.id, {
+    zz: "hi",
   });
 })();
