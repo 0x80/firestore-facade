@@ -1,0 +1,15 @@
+{
+  "name": "firestore-facade",
+  "version": "0.0.0",
+  "description": "A clean and typed interface to Firebase Firestore",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "Thijs Koerselman",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.5.2"
+  }
+}
