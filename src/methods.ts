@@ -1,6 +1,6 @@
-import { getDocument, getDocuments } from "./documents";
+import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
 
-export function createRootCollectionMethods<T>(
+export function createRootCollectionMethods<T extends object>(
   db: FirebaseFirestore.Firestore,
   collectionName: string,
 ) {
@@ -17,21 +17,31 @@ export function createRootCollectionMethods<T>(
 
     get: (documentId: string) => getDocument(db, collectionName, documentId),
 
-    query: (query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>) =>
-      getDocuments<T>(query),
+    query: (
+      fn: (
+        ref: FirebaseFirestore.CollectionReference,
+      ) => FirebaseFirestore.Query,
+    ) => getDocuments<T>(fn(db.collection(collectionName))),
 
     /**
-     * A query where select is used to strongly type the returned documents
-     * using Pick<T>
+     * A query where select is used to strongly type the selector and returned
+     * document shape using Pick<T, K>
      */
-    // querySelect: (
-    //   query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
-    //   selectFields: keyof T[],
-    // ) => getDocumentsWithSelect<T>(query, selectFields),
+    queryAndSelect<K extends keyof T>(
+      fn: (
+        ref: FirebaseFirestore.CollectionReference,
+      ) => FirebaseFirestore.Query,
+      selectFields: readonly K[],
+    ) {
+      return getDocumentsWithSelect<T, K>(
+        fn(db.collection(collectionName)),
+        selectFields,
+      );
+    },
   };
 }
 
-export function createSubCollectionMethods<T>(
+export function createSubCollectionMethods<T extends object>(
   db: FirebaseFirestore.Firestore,
   parentCollectionName: string,
   collectionName: string,

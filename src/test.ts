@@ -32,7 +32,39 @@ import { firestore } from "./firebase-client";
     bb: 123,
   });
 
+  /**
+   * Call subcollections by passing the parent document id as the first
+   * argument. Only one level of subcollections is supported.
+   */
   await db.collection_a.collection_sub.add(ref.id, {
     zz: "hi",
   });
+
+  /**
+   * When doing a query in combination with selecting fields, pass them as a
+   * second argument and the return type will be "picked" correctly.
+   */
+
+  {
+    const docs = await db.collection_a.query((ref) =>
+      ref.where("a", "==", "hi"),
+    );
+
+    console.log("found", docs.length);
+  }
+
+  {
+    /**
+     * Perform a query with select fields on the document response.
+     */
+    const docs = await db.collection_a.queryAndSelect(
+      (ref) => ref.where("a", "==", "hi"),
+      ["a"],
+    );
+
+    /**
+     * Only the property a should allowed to be accessed
+     */
+    docs.forEach((doc) => console.log(doc.data.a));
+  }
 })();

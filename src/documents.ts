@@ -1,4 +1,4 @@
-import { last } from "remeda";
+import { isDefined, last } from "remeda";
 import { assert } from "./utils";
 
 const BATCH_SIZE = 500;
@@ -37,9 +37,20 @@ export async function getDocument<T>(
 export async function getDocuments<T>(
   query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
 ): Promise<FirestoreDocument<T>[]> {
-  const limitedQuery = query.limit(BATCH_SIZE);
+  const finalQuery = query.limit(BATCH_SIZE);
 
-  return _getDocumentsBatch<T>(limitedQuery);
+  return _getDocumentsBatch<T>(finalQuery);
+}
+
+export async function getDocumentsWithSelect<T, K extends keyof T>(
+  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+  selectFields: readonly K[],
+): Promise<FirestoreDocument<Pick<T, K>>[]> {
+  const finalQuery = query
+    .limit(BATCH_SIZE)
+    .select(...(selectFields as unknown as string[]));
+
+  return _getDocumentsBatch<Pick<T, K>>(finalQuery);
 }
 
 async function _getDocumentsBatch<T>(
