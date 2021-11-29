@@ -3,19 +3,32 @@
 A clean and strongly typed interface to Firebase Firestore for Typescript
 projects.
 
-> This library is not ready for consumption just yet
+---
 
-The aim is to keep the API as close to the original as possible while providing
-as much type safety. Firestore Façade is a fairly thin wrapper that still allows
-you to tap into the underlying Firestore methods.
+**NOTE** This library is still in its proof-of-concept phase and therefore not
+ready for consumption.
 
-The initial version focusses solely on Node.js. For front-end I would suggest to
-use something like
+---
+
+The goal is to keep the API as close to native as possible while providing as
+much type safety as is still practical. Firestore Façade is a fairly
+thin wrapper that does not prevent you from using using plain Firestore methods.
+As such it is not aiming to cover the full Firestore API surface.
+
+At the moment this library focusses solely on Node.js using the
+[firestore-admin](https://github.com/firebase/firebase-admin-node) client. For front-end I would
+suggest to use something like
 [react-firebase-hooks](https://github.com/csfrequency/react-firebase-hooks).
+
+The release version will aim to have zero dependencies.
 
 ## TODO
 
-- [ ] Solve typing for `update` method
+- [ ] Solve typing for `update` method. Also test and support field values,
+      number increment and array operations. Possibly we can treat any
+      dot-notation key as type any.
+- [ ] Make config so that sub collections can exist as root collection too. See
+      https://firebase.google.com/docs/firestore/manage-data/add-data#web-version-9_4
 - [ ] Generate facade factory function based in collection config
 - [ ] Convert to monorepo with separate CLI and examples packages
 - [ ] Implement CLI for facade generator

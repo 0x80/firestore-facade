@@ -1,4 +1,7 @@
 import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
+import { DeepKeyOf } from "./types";
+
+type DeepKeyMap<T> = Record<DeepKeyOf<T>, any>;
 
 export function createCollectionMethods<T extends object>(
   db: FirebaseFirestore.Firestore,
@@ -13,11 +16,18 @@ export function createCollectionMethods<T extends object>(
     /**
      * @TODO FirebaseFirestore.UpdateData is not strict at all, we need to find
      * a way to type the data argument.
+     *
+     * Problem is that update can get many different types, including number
+     * increments and array remove/union instructions.
+     * See https://firebase.google.com/docs/firestore/manage-data/add-data#web-version-9_4
+     *
+     * So not sure how strict we can get here.
      */
-    update: (
-      documentId: string,
-      data: Partial<T> | FirebaseFirestore.UpdateData,
-    ) => db.collection(collectionPath).doc(documentId).update(data),
+    update: (documentId: string, data: Partial<T>) =>
+      db.collection(collectionPath).doc(documentId).update(data),
+
+    updateField: (documentId: string, data: DeepKeyMap<T>) =>
+      db.collection(collectionPath).doc(documentId).update(data),
 
     get: (documentId: string) => getDocument(db, collectionPath, documentId),
 

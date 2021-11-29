@@ -30,7 +30,7 @@ import { firestore } from "./firebase-client";
    * @TODO find a solution
    */
   await db.collection_a.update(ref.id, { a: "bye", b: 321 });
-  await db.collection_a.update(ref.id, { "nested.c": false });
+  await db.collection_a.updateField(ref.id, { "nested.c": false });
 
   const doc = await db.collection_a.get(ref.id);
 
