@@ -1,27 +1,31 @@
 import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
 
-export function createRootCollectionMethods<T extends object>(
+export function createCollectionMethods<T extends object>(
   db: FirebaseFirestore.Firestore,
-  collectionName: string,
+  collectionPath: string,
 ) {
   return {
-    add: (data: T) => db.collection(collectionName).add(data),
+    add: (data: T) => db.collection(collectionPath).add(data),
 
     set: (documentId: string, data: T) =>
-      db.collection(collectionName).doc(documentId).set(data),
+      db.collection(collectionPath).doc(documentId).set(data),
 
+    /**
+     * @TODO FirebaseFirestore.UpdateData is not strict at all, we need to find
+     * a way to type the data argument.
+     */
     update: (
       documentId: string,
       data: Partial<T> | FirebaseFirestore.UpdateData,
-    ) => db.collection(collectionName).doc(documentId).update(data),
+    ) => db.collection(collectionPath).doc(documentId).update(data),
 
-    get: (documentId: string) => getDocument(db, collectionName, documentId),
+    get: (documentId: string) => getDocument(db, collectionPath, documentId),
 
     query: (
       fn: (
         ref: FirebaseFirestore.CollectionReference,
       ) => FirebaseFirestore.Query,
-    ) => getDocuments<T>(fn(db.collection(collectionName))),
+    ) => getDocuments<T>(fn(db.collection(collectionPath))),
 
     /**
      * A query where select is used to strongly type the selector and returned
@@ -34,32 +38,9 @@ export function createRootCollectionMethods<T extends object>(
       selectFields: readonly K[],
     ) {
       return getDocumentsWithSelect<T, K>(
-        fn(db.collection(collectionName)),
+        fn(db.collection(collectionPath)),
         selectFields,
       );
     },
-  };
-}
-
-export function createSubCollectionMethods<T extends object>(
-  db: FirebaseFirestore.Firestore,
-  parentCollectionName: string,
-  collectionName: string,
-) {
-  return {
-    add: (parentDocumentId: string, data: T) =>
-      db
-        .collection(
-          `${parentCollectionName}/${parentDocumentId}/${collectionName}`,
-        )
-        .add(data),
-
-    set: (parentDocumentId: string, documentId: string, data: T) =>
-      db
-        .collection(
-          `${parentCollectionName}/${parentDocumentId}/${collectionName}`,
-        )
-        .doc(documentId)
-        .set(data),
   };
 }

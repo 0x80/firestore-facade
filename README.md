@@ -1,6 +1,7 @@
 # Firestore Façade
 
-A clean and strongly typed interface to Firebase Firestore.
+A clean and strongly typed interface to Firebase Firestore for Typescript
+projects.
 
 > This library is not ready for consumption just yet
 
@@ -8,9 +9,19 @@ The aim is to keep the API as close to the original as possible while providing
 as much type safety. Firestore Façade is a fairly thin wrapper that still allows
 you to tap into the underlying Firestore methods.
 
-The initial version focusses solely on Node.js. For front-end I
-would suggest to use something like
+The initial version focusses solely on Node.js. For front-end I would suggest to
+use something like
 [react-firebase-hooks](https://github.com/csfrequency/react-firebase-hooks).
+
+## TODO
+
+- [ ] Solve typing for `update` method
+- [ ] Generate facade factory function based in collection config
+- [ ] Convert to monorepo with separate CLI and examples packages
+- [ ] Implement CLI for facade generator
+- [ ] Use peer-dependencies where appropriate
+- [ ] Remove need for other dependencies
+- [ ] Add tests
 
 ## Motivation
 
@@ -66,23 +77,42 @@ export const collectionsDefinition = {
 
 ## Usage
 
-You provide a configuration file mapping each collection to a document type.
-Then the module generates a facade factory function for you to use as
-demonstrated below:
+Based on a configuration file, which maps each collection to a document type,
+the CLI generates the facade factory function code for you to include in your
+project.
+
+The factory wraps your instance of firestore and returns a facade interface.
 
 ```ts
 const db = createFacade(firestore);
 
+/**
+ * Add and set will enforce the exact document type for each collection. Each
+ * collection name is a property, so no more use of untyped strings to
+ * reference collections.
+ */
 const ref = await db.collection_a.add({
   a: "hi",
   b: 123,
   nested: { c: true, d: ["one", "two", "three"] },
 });
 
+await db.collection_a.set(ref.id, {
+  a: "hi",
+  b: 123,
+  nested: { c: true, d: ["one", "two", "three"] },
+});
+
+/**
+ * The typing here is not working yet
+ * @TODO find a solution
+ */
 await db.collection_a.update(ref.id, { a: "bye", b: 321 });
 await db.collection_a.update(ref.id, { "nested.c": false });
 
 const doc = await db.collection_a.get(ref.id);
+
+console.log(doc.data);
 
 await db.collection_b.add({
   ba: "hi",
@@ -90,25 +120,32 @@ await db.collection_b.add({
 });
 
 /**
- * Call subcollections by passing the parent document id as the first
- * argument. Only one level of subcollections is supported.
+ * Subcollections are accessed by passing a parent document id to the sub
+ * method. Currently one level of nesting is supported, but more would be
+ * possible if required.
  */
-await db.collection_a.collection_sub.add(ref.id, {
+await db.collection_a.sub(ref.id).collection_sub.add({
   zz: "hi",
 });
 
+/**
+ * Queries are using a regular Firestore collection reference, so they largely
+ * use the official API and parameters to methods like "where" are not typed.
+ *
+ * The query does use automatic batching to fetch all documents in chunks. An
+ * alternative, using generator function, will be available in the future.
+ */
 const docs = await db.collection_a.query((ref) => ref.where("a", "==", "hi"));
 
 /**
- * Perform a query with select fields on the document response.
+ * Perform a query with document field selection. The fields argument is
+ * typed, and the response document is typed to only contain the picked
+ * properties.
  */
-const pickeDocs = await db.collection_a.queryAndSelect(
+const pickedDocs = await db.collection_a.queryAndSelect(
   (ref) => ref.where("a", "==", "hi"),
   ["a"],
 );
 
-/**
- * At this point TS knows only the property "a" is available
- */
-pickeDocs.forEach((doc) => console.log(doc.data.a));
+pickedDocs.forEach((doc) => console.log(doc.data.a));
 ```
