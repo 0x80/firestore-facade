@@ -37,6 +37,7 @@ The release version will aim to have zero dependencies.
 - [ ] Add tests
 - [ ] Test number increment and array update operations
 - [ ] Improve and type the collections configuration
+- [ ] Implement query pagination via generator function
 
 ## Motivation
 
@@ -132,7 +133,7 @@ await db.athletes.update(ref.id, {
   age: 27,
   "skills.c": true,
   "skills.tuple": ["bar", 890],
-  updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
+  updated_at: serverTimestamp(),
 });
 
 const doc = await db.athletes.get(ref.id);
@@ -163,6 +164,8 @@ await db.athletes.sub(ref.id).medals.add({
 const fullDocs = await db.athletes.query((ref) =>
   ref.where("skills.c", "==", true),
 );
+
+console.log(`Retrieved ${fullDocs.length} documents`);
 
 /**
  * Perform a query with document field selection. The fields argument is

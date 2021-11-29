@@ -1,5 +1,5 @@
 import { createFacade } from "./facade";
-import { FieldValue, firestore } from "./firebase-client";
+import { firestore, serverTimestamp } from "./firebase-client";
 
 /**
  * This would be an example of client code. Note that everything is typed and we
@@ -39,7 +39,7 @@ import { FieldValue, firestore } from "./firebase-client";
     age: 27,
     "skills.c": true,
     "skills.tuple": ["bar", 890],
-    updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
+    updated_at: serverTimestamp(),
   });
 
   const doc = await db.athletes.get(ref.id);
@@ -70,6 +70,8 @@ import { FieldValue, firestore } from "./firebase-client";
   const fullDocs = await db.athletes.query((ref) =>
     ref.where("skills.c", "==", true),
   );
+
+  console.log(`Retrieved ${fullDocs.length} documents`);
 
   /**
    * Perform a query with document field selection. The fields argument is

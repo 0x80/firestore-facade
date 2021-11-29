@@ -11,10 +11,12 @@ export const firestore = admin.firestore(adminApp);
 export const client = new admin.firestore.v1.FirestoreAdminClient();
 
 export const FieldValue = admin.firestore.FieldValue;
-export const GeoPoint = admin.firestore.GeoPoint;
-export const Timestamp = admin.firestore.Timestamp;
 
 firestore.settings({
   timestampsInSnapshots: true,
   ignoreUndefinedProperties: true,
 });
+
+export function serverTimestamp() {
+  return FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp;
+}
