@@ -1,10 +1,11 @@
-type DocumentA = {
+export type DocumentA = {
   a: string;
   b: number;
   nested: {
     c: boolean;
     d: string[];
   };
+  updated_at?: FirebaseFirestore.Timestamp;
 };
 
 type DocumentB = {
