@@ -11,13 +11,17 @@ ready for consumption.
 ---
 
 The goal is to keep the API as close to native as possible while providing as
-much type safety as is still practical. Firestore Façade is a fairly
-thin wrapper that does not prevent you from using using plain Firestore methods.
-As such it is not aiming to cover the full Firestore API surface.
+much type safety as is still practical. Firestore Façade is a fairly thin
+wrapper that does not prevent you from using using plain Firestore methods. As
+such it is not aiming to cover the full Firestore API surface.
 
 At the moment this library focusses solely on Node.js using the
-[firestore-admin](https://github.com/firebase/firebase-admin-node) client. For front-end I would
-suggest to use something like
+[firestore-admin](https://github.com/firebase/firebase-admin-node) client.
+Hopefully we can make this compatible with the [Cloud
+Firestore](https://github.com/googleapis/nodejs-firestore) in the future,
+because both products are technically the same.
+
+For front-end I would suggest to use something like
 [react-firebase-hooks](https://github.com/csfrequency/react-firebase-hooks).
 
 The release version will aim to have zero dependencies.
