@@ -5,6 +5,7 @@ type DocumentA = {
     c: boolean;
     d: string[];
   };
+  updated_at?: FirebaseFirestore.Timestamp;
 };
 
 type DocumentB = {

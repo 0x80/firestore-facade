@@ -59,6 +59,7 @@ type DocumentA = {
     c: boolean;
     d: string[];
   };
+  updated_at?: FirebaseFirestore.Timestamp;
 };
 
 type DocumentB = {
@@ -121,11 +122,21 @@ await db.collection_a.set(ref.id, {
 });
 
 /**
- * The typing here is not working yet
- * @TODO find a solution
+ * For the update function all keys and nested field paths are typed, but the
+ * values are currently set to accept "any".
+ *
+ * This is maybe not ideal, but it allows us to pass FieldValue.serverTimestamp()
+ * on updated_at, which is passing FirebaseFirestore.FieldValue where the
+ * document type defines the field as FirebaseFirestore.Timestamp.
+ *
+ * @TODO try to make this strict
  */
-await db.collection_a.update(ref.id, { a: "bye", b: 321 });
-await db.collection_a.update(ref.id, { "nested.c": false });
+await db.collection_a.update(ref.id, {
+  a: "bye",
+  b: 321,
+  "nested.c": false,
+  updated_at: FieldValue.serverTimestamp(),
+});
 
 const doc = await db.collection_a.get(ref.id);
 

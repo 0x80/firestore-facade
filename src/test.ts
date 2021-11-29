@@ -1,5 +1,5 @@
 import { createFacade } from "./facade";
-import { firestore } from "./firebase-client";
+import { FieldValue, firestore } from "./firebase-client";
 
 /**
  * This would be an example of client code. Note that everything is typed and we
@@ -26,11 +26,19 @@ import { firestore } from "./firebase-client";
   });
 
   /**
-   * The typing here is not working yet
-   * @TODO find a solution
+   * For the update function all keys and nested field paths are typed, but the
+   * values are currently set to accept "any".
+   *
+   * This is maybe not ideal, but it allows us to pass FieldValue.serverTimestamp()
+   * on updated_at, which is passing FirebaseFirestore.FieldValue where the
+   * document type defines the field as FirebaseFirestore.Timestamp.
    */
-  await db.collection_a.update(ref.id, { a: "bye", b: 321 });
-  await db.collection_a.updateField(ref.id, { "nested.c": false });
+  await db.collection_a.update(ref.id, {
+    a: "bye",
+    b: 321,
+    "nested.c": false,
+    updated_at: FieldValue.serverTimestamp(),
+  });
 
   const doc = await db.collection_a.get(ref.id);
 
