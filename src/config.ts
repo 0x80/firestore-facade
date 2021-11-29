@@ -1,7 +1,7 @@
-export type DocumentA = {
-  a: string;
-  b: number;
-  nested: {
+export type Athlete = {
+  name: string;
+  age: number;
+  skills: {
     c: boolean;
     d: string[];
     tuple: [string, number];
@@ -9,13 +9,13 @@ export type DocumentA = {
   updated_at?: FirebaseFirestore.Timestamp;
 };
 
-type DocumentB = {
-  ba: string;
-  bb: number;
+type Event = {
+  name: string;
+  year: number;
 };
 
-type DocumentSub = {
-  zz: string;
+type Medal = {
+  type: "bronze" | "silver" | "gold";
 };
 
 /**
@@ -25,12 +25,12 @@ type DocumentSub = {
  */
 export const collectionsDefinition = {
   root: {
-    collection_a: {} as DocumentA,
-    collection_b: {} as DocumentB,
+    athletes: {} as Athlete,
+    events: {} as Event,
   },
   sub: {
-    collection_a: {
-      collection_sub: {} as DocumentSub,
+    athletes: {
+      medals: {} as Medal,
     },
   },
 };

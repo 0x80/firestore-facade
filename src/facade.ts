@@ -7,20 +7,15 @@ import { createCollectionMethods } from "./methods";
  */
 export function createFacade(db: FirebaseFirestore.Firestore) {
   return {
-    collection_a: {
-      ...createCollectionMethods<typeof def.root.collection_a>(
-        db,
-        "collection_a",
-      ),
+    athletes: {
+      ...createCollectionMethods<typeof def.root.athletes>(db, "athletes"),
       sub: (parentDocumentId: string) => ({
-        collection_sub: createCollectionMethods<
-          typeof def.sub.collection_a.collection_sub
-        >(db, `collection_a/${parentDocumentId}/collection_sub`),
+        medals: createCollectionMethods<typeof def.sub.athletes.medals>(
+          db,
+          `athletes/${parentDocumentId}/medals`,
+        ),
       }),
     },
-    collection_b: createCollectionMethods<typeof def.root.collection_b>(
-      db,
-      "collection_b",
-    ),
+    events: createCollectionMethods<typeof def.root.events>(db, "events"),
   };
 }

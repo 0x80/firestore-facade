@@ -36,6 +36,7 @@ The release version will aim to have zero dependencies.
 - [ ] Remove need for other dependencies
 - [ ] Add tests
 - [ ] Test number increment and array update operations
+- [ ] Improve and type the collections configuration
 
 ## Motivation
 
@@ -49,23 +50,24 @@ For each collection and subcollection (one level currently supported), you
 provide a mapping as follows:
 
 ```ts
-type DocumentA = {
-  a: string;
-  b: number;
-  nested: {
+export type Athlete = {
+  name: string;
+  age: number;
+  skills: {
     c: boolean;
     d: string[];
+    tuple: [string, number];
   };
   updated_at?: FirebaseFirestore.Timestamp;
 };
 
-type DocumentB = {
-  ba: string;
-  bb: number;
+type Event = {
+  name: string;
+  year: number;
 };
 
-type DocumentSub = {
-  zz: string;
+type Medal = {
+  type: "bronze" | "silver" | "gold";
 };
 
 /**
@@ -74,15 +76,13 @@ type DocumentSub = {
  * createFacade function, so it knows how to type each of the collection methods.
  */
 export const collectionsDefinition = {
-  // Root collections
   root: {
-    collection_a: {} as DocumentA,
-    collection_b: {} as DocumentB,
+    athletes: {} as Athlete,
+    events: {} as Event,
   },
-  // Sub collections
   sub: {
-    collection_a: {
-      collection_sub: {} as DocumentSub,
+    athletes: {
+      medals: {} as Medal,
     },
   },
 };
@@ -106,18 +106,18 @@ const db = createFacade(firestore);
  * collection name is a property, so no more use of untyped strings to
  * reference collections.
  */
-const ref = await db.collection_a.add({
-  a: "hi",
-  b: 123,
-  nested: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
+const ref = await db.athletes.add({
+  name: "Joe",
+  age: 23,
+  skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
 });
 
 console.log(`Stored new document at collection_a/${ref.id}`);
 
-await db.collection_a.set(ref.id, {
-  a: "hi",
-  b: 123,
-  nested: { c: true, d: ["one", "two", "three"], tuple: ["foo", 456] },
+await db.athletes.set(ref.id, {
+  name: "Jane",
+  age: 26,
+  skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 456] },
 });
 
 /**
@@ -128,21 +128,20 @@ await db.collection_a.set(ref.id, {
  * content via a path like "nested.tuple.1" is not allowed. This should be
  * done the Firestore way using FieldValue objects (not supported yet).
  */
-await db.collection_a.update(ref.id, {
-  a: "bye",
-  b: 321,
-  "nested.c": true,
-  "nested.tuple": ["bar", 890],
+await db.athletes.update(ref.id, {
+  age: 27,
+  "skills.c": true,
+  "skills.tuple": ["bar", 890],
   updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
 });
 
-const doc = await db.collection_a.get(ref.id);
+const doc = await db.athletes.get(ref.id);
 
 console.log(doc.data);
 
-await db.collection_b.add({
-  ba: "hi",
-  bb: 123,
+await db.events.add({
+  name: "Olympics",
+  year: 2045,
 });
 
 /**
@@ -150,8 +149,8 @@ await db.collection_b.add({
  * method. Currently one level of nesting is supported, but more would be
  * possible if required.
  */
-await db.collection_a.sub(ref.id).collection_sub.add({
-  zz: "hi",
+await db.athletes.sub(ref.id).medals.add({
+  type: "gold",
 });
 
 /**
@@ -161,17 +160,19 @@ await db.collection_a.sub(ref.id).collection_sub.add({
  * The query does use automatic batching to fetch all documents in chunks. An
  * alternative, using generator function, will be available in the future.
  */
-const docs = await db.collection_a.query((ref) => ref.where("a", "==", "hi"));
+const fullDocs = await db.athletes.query((ref) =>
+  ref.where("skills.c", "==", true),
+);
 
 /**
  * Perform a query with document field selection. The fields argument is
  * typed, and the response document is typed to only contain the picked
  * properties.
  */
-const pickedDocs = await db.collection_a.queryAndSelect(
-  (ref) => ref.where("a", "==", "hi"),
-  ["a"],
+const partialDocs = await db.athletes.queryAndSelect(
+  (ref) => ref.where("updated_at", "<", new Date()),
+  ["name", "skills"],
 );
 
-pickedDocs.forEach((doc) => console.log(doc.data.a));
+partialDocs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
 ```
