@@ -109,22 +109,30 @@ const db = createFacade(firestore);
 const ref = await db.collection_a.add({
   a: "hi",
   b: 123,
-  nested: { c: true, d: ["one", "two", "three"] },
+  nested: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
 });
+
+console.log(`Stored new document at collection_a/${ref.id}`);
 
 await db.collection_a.set(ref.id, {
   a: "hi",
   b: 123,
-  nested: { c: true, d: ["one", "two", "three"] },
+  nested: { c: true, d: ["one", "two", "three"], tuple: ["foo", 456] },
 });
 
 /**
- * For the update function all keys and nested field paths are typed!! 💅
+ * For the update function all keys, nested field paths and their values are
+ * typed!! 💅
+ *
+ * Note that the type allows for arrays and tuples to be set. Mutating their
+ * content via a path like "nested.tuple.1" is not allowed. This should be
+ * done the Firestore way using FieldValue objects (not supported yet).
  */
 await db.collection_a.update(ref.id, {
   a: "bye",
   b: 321,
   "nested.c": true,
+  "nested.tuple": ["bar", 890],
   updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
 });
 

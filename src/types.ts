@@ -9,8 +9,8 @@ type TestDocument = {
   nested: {
     c: boolean;
     d: string[];
+    tuple: [number, string];
   };
-  tuple: [number, string];
   updated_at?: FirebaseFirestore.Timestamp;
 };
 
@@ -34,7 +34,7 @@ type IsTuple<T> = T extends Array<any>
     : true
   : false;
 {
-  type _ = IsTuple<[1, 2]>; // true
+  type _ = IsTuple<["foo", 2]>; // true
   type __ = IsTuple<number[]>; // false
   type ___ = IsTuple<{ length: 2 }>; // false
 }
@@ -75,26 +75,16 @@ type Path<Obj, Cache extends string = ""> = Obj extends PropertyKey
     Cache
   : // if Obj is Array (can be array, tuple, empty tuple)
   Obj extends Array<unknown>
-  ? // and is tuple
-    IsTuple<Obj> extends true
-    ? // and tuple is empty
-      IsEmptyTuple<Obj> extends true
-      ? // call recursively Path with `-1` as an allowed index
-        Path<PropertyKey, HandleDot<Cache, -1>>
-      : // if tuple is not empty we can handle it as regular object
-        HandleObject<Obj, Cache>
-    : // if Obj is regular  array call Path with union of all elements
-      //Path<Obj[number], HandleDot<Cache, number>>
-      Cache
+  ? Cache
   : IsTimestamp<Obj> extends true
   ? Cache
-  : // if Obj is neither Array nor Tuple nor Primitive not Timestamp - treat is as object
+  : // if Obj is neither Array, Tuple, Primitive nor Timestamp - treat is as object
     HandleObject<Obj, Cache>;
 
 type WithDot<T extends string> = T extends `${string}.${string}` ? T : never;
 
 {
-  // "user" | "user.arr" | `user.arr.${number}`
+  // "user" | "user.arr"
   type _ = WithDot<Extract<Path<TestDocument>, string>>;
 }
 

@@ -4,6 +4,7 @@ export type DocumentA = {
   nested: {
     c: boolean;
     d: string[];
+    tuple: [string, number];
   };
   updated_at?: FirebaseFirestore.Timestamp;
 };
