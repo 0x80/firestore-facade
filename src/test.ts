@@ -26,7 +26,8 @@ import { FieldValue, firestore } from "./firebase-client";
   });
 
   /**
-   * For the update function all keys and nested field paths are typed!! 💅
+   * For the update function all keys, nested field paths and their values are
+   * typed!! 💅
    */
   await db.collection_a.update(ref.id, {
     a: "bye",

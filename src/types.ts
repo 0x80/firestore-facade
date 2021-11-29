@@ -1,16 +1,17 @@
-import { DocumentA } from "./config";
-
 /**
  * Code *heavily* inspired by
  * https://stackoverflow.com/questions/69126879/typescript-deep-keyof-of-a-nested-object-with-related-type#answer-69129328
  */
 
-type Structure = {
-  user: {
-    tuple: [42];
-    emptyTuple: [];
-    array: { age: number }[];
+type TestDocument = {
+  a: string;
+  b: number;
+  nested: {
+    c: boolean;
+    d: string[];
   };
+  tuple: [number, string];
+  updated_at?: FirebaseFirestore.Timestamp;
 };
 
 type Values<T> = T[keyof T];
@@ -92,8 +93,10 @@ type Path<Obj, Cache extends string = ""> = Obj extends PropertyKey
 
 type WithDot<T extends string> = T extends `${string}.${string}` ? T : never;
 
-// "user" | "user.arr" | `user.arr.${number}`
-type Test = WithDot<Extract<Path<Structure>, string>>;
+{
+  // "user" | "user.arr" | `user.arr.${number}`
+  type _ = WithDot<Extract<Path<TestDocument>, string>>;
+}
 
 type Acc = Record<string, any>;
 
@@ -118,8 +121,8 @@ type Reducer<Keys extends string, Accumulator extends Acc = {}> =
     : never;
 
 {
-  type _ = Reducer<"user.arr", Structure>; // []
-  type __ = Reducer<"user", Structure>; // { arr: [] }
+  type _ = Reducer<"user.arr", TestDocument>; // []
+  type __ = Reducer<"user", TestDocument>; // { arr: [] }
 }
 
 export type FieldPaths<T> = {
@@ -127,5 +130,5 @@ export type FieldPaths<T> = {
 };
 
 {
-  type _ = FieldPaths<DocumentA>;
+  type _ = FieldPaths<TestDocument>;
 }
