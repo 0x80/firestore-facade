@@ -26,19 +26,16 @@ For front-end I would suggest to use something like
 
 The release version will aim to have zero dependencies.
 
-## TODO
+## TODO v1.0
 
-- [ ] Solve typing for `update` method. Also test and support field values,
-      number increment and array operations. Possibly we can treat any
-      dot-notation key as type any.
-- [ ] Make config so that sub collections can exist as root collection too. See
-      https://firebase.google.com/docs/firestore/manage-data/add-data#web-version-9_4
+- [x] Add strict typing for `update` method.
 - [ ] Generate facade factory function based in collection config
 - [ ] Convert to monorepo with separate CLI and examples packages
 - [ ] Implement CLI for facade generator
 - [ ] Use peer-dependencies where appropriate
 - [ ] Remove need for other dependencies
 - [ ] Add tests
+- [ ] Test number increment and array update operations
 
 ## Motivation
 
@@ -122,20 +119,13 @@ await db.collection_a.set(ref.id, {
 });
 
 /**
- * For the update function all keys and nested field paths are typed, but the
- * values are currently set to accept "any".
- *
- * This is maybe not ideal, but it allows us to pass FieldValue.serverTimestamp()
- * on updated_at, which is passing FirebaseFirestore.FieldValue where the
- * document type defines the field as FirebaseFirestore.Timestamp.
- *
- * @TODO try to make this strict
+ * For the update function all keys and nested field paths are typed!! 💅
  */
 await db.collection_a.update(ref.id, {
   a: "bye",
   b: 321,
-  "nested.c": false,
-  updated_at: FieldValue.serverTimestamp(),
+  "nested.c": true,
+  updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
 });
 
 const doc = await db.collection_a.get(ref.id);
