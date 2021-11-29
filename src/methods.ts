@@ -1,5 +1,5 @@
 import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
-import { DeepKeyMap, DeepKeyOf } from "./types";
+import { FieldPaths } from "./types";
 
 export function createCollectionMethods<T extends object>(
   db: FirebaseFirestore.Firestore,
@@ -21,11 +21,11 @@ export function createCollectionMethods<T extends object>(
      *
      * So not sure how strict we can get here.
      */
-    update: (documentId: string, data: Partial<T> | DeepKeyMap<T>) =>
+    update: (documentId: string, data: Partial<T> | FieldPaths<T>) =>
       db.collection(collectionPath).doc(documentId).update(data),
 
-    updateField: (documentId: string, data: DeepKeyMap<T>) =>
-      db.collection(collectionPath).doc(documentId).update(data),
+    // updateField: (documentId: string, data: DeepKeyMap<T>) =>
+    //   db.collection(collectionPath).doc(documentId).update(data),
 
     get: (documentId: string) => getDocument(db, collectionPath, documentId),
 

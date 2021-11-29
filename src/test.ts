@@ -26,18 +26,13 @@ import { FieldValue, firestore } from "./firebase-client";
   });
 
   /**
-   * For the update function all keys and nested field paths are typed, but the
-   * values are currently set to accept "any".
-   *
-   * This is maybe not ideal, but it allows us to pass FieldValue.serverTimestamp()
-   * on updated_at, which is passing FirebaseFirestore.FieldValue where the
-   * document type defines the field as FirebaseFirestore.Timestamp.
+   * For the update function all keys and nested field paths are typed!! 💅
    */
   await db.collection_a.update(ref.id, {
     a: "bye",
     b: 321,
-    "nested.c": false,
-    updated_at: FieldValue.serverTimestamp(),
+    "nested.c": true,
+    updated_at: FieldValue.serverTimestamp() as FirebaseFirestore.Timestamp,
   });
 
   const doc = await db.collection_a.get(ref.id);

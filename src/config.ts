@@ -1,4 +1,4 @@
-type DocumentA = {
+export type DocumentA = {
   a: string;
   b: number;
   nested: {
