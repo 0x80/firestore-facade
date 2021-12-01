@@ -15,6 +15,7 @@ type Event = {
 };
 
 type Medal = {
+  event_id: string;
   type: "bronze" | "silver" | "gold";
 };
 

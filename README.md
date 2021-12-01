@@ -140,7 +140,7 @@ const doc = await db.athletes.get(ref.id);
 
 console.log(doc.data);
 
-await db.events.add({
+const { id: eventId } = await db.events.add({
   name: "Olympics",
   year: 2045,
 });
@@ -151,9 +151,9 @@ await db.events.add({
  * possible if required.
  */
 await db.athletes.sub(ref.id).medals.add({
+  event_id: eventId,
   type: "gold",
 });
-
 /**
  * Queries are using a regular Firestore collection reference, so they largely
  * use the official API and parameters to methods like "where" are not typed.

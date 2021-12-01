@@ -46,7 +46,7 @@ import { firestore, serverTimestamp } from "./firebase-client";
 
   console.log(doc.data);
 
-  await db.events.add({
+  const { id: eventId } = await db.events.add({
     name: "Olympics",
     year: 2045,
   });
@@ -57,6 +57,7 @@ import { firestore, serverTimestamp } from "./firebase-client";
    * possible if required.
    */
   await db.athletes.sub(ref.id).medals.add({
+    event_id: eventId,
     type: "gold",
   });
 
