@@ -13,6 +13,7 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "devDependencies": {
+    "@types/prettier": "^2.4.2",
     "prettier": "^2.5.0",
     "typescript": "^4.5.2"
   },

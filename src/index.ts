@@ -1,1 +1,2 @@
-export * from "./facade";
+export * from "./generate";
+export * from "./methods";
