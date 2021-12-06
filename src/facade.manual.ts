@@ -1,4 +1,4 @@
-import { collectionDocumentTypes as def } from "./config";
+import def from "./config";
 import { createCollectionMethods } from "./methods";
 
 /**

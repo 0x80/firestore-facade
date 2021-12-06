@@ -6,12 +6,18 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "scripts": {
     "test": "npm run build & node dist/test.js",
-    "build": "tsc"
+    "build": "tsc",
+    "generate": "node --experimental-specifier-resolution=node --loader ts-node/esm src/cli.ts",
+    "generate-js": "node --experimental-specifier-resolution=node dist/cli.js"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
+  "bin": {
+    "generate-facade": "dist/cli.js"
+  },
   "devDependencies": {
     "@types/prettier": "^2.4.2",
     "prettier": "^2.5.0",
@@ -19,6 +25,8 @@
   },
   "dependencies": {
     "firebase-admin": "^10.0.0",
-    "remeda": "^0.0.30"
+    "meow": "^10.1.2",
+    "remeda": "^0.0.30",
+    "ts-node": "^10.4.0"
   }
 }

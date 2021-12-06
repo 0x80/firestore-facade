@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase-admin/firestore";
+
 export type Athlete = {
   name: string;
   age: number;
@@ -6,7 +8,7 @@ export type Athlete = {
     d: string[];
     tuple: [string, number];
   };
-  updated_at?: FirebaseFirestore.Timestamp;
+  updated_at?: Timestamp;
 };
 
 type Event = {
@@ -17,18 +19,6 @@ type Event = {
 type Medal = {
   event_id: string;
   type: "bronze" | "silver" | "gold";
-};
-
-export type CollectionDocumentTypes = {
-  root: {
-    athletes: Athlete;
-    events: Event;
-  };
-  sub: {
-    athletes: {
-      medals: Medal;
-    };
-  };
 };
 
 /**
@@ -49,6 +39,9 @@ type SubCollectionsDef = {
 export type CollectionsConfig = {
   root: CollectionsDef;
   sub: SubCollectionsDef;
+  options: {
+    context?: "admin" | "web";
+  };
 };
 
 /**
@@ -56,7 +49,7 @@ export type CollectionsConfig = {
  * types. This configuration only serves as type information when generating the
  * createFacade function, so it knows how to type each of the collection methods.
  */
-export const collectionDocumentTypes = {
+export default {
   root: {
     athletes: {} as Athlete,
     events: {} as Event,
