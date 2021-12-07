@@ -3,6 +3,9 @@
 A clean, strongly-typed, zero-dependency interface to Firebase Firestore for
 Typescript projects.
 
+> NOTE: This project is still in its infancy, and probably not ready for
+> consumption just yet
+
 ## Motivation
 
 - Reduce boilerplate code and improve readability
