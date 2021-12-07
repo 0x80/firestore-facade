@@ -1,7 +1,12 @@
 {
   "name": "firestore-facade",
   "version": "0.0.1-0",
-  "description": "A clean and strictly typed interface to Firebase Firestore with zero dependencies",
+  "description": "A clean, strongly-typed, zero-dependency API for Firestore Typescript projects",
+  "keywords": [
+    "firebase",
+    "firestore",
+    "facade"
+  ],
   "main": "dist/index.js",
   "files": [
     "dist"

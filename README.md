@@ -1,7 +1,6 @@
 # Firestore Façade
 
-A clean, strongly-typed, zero-dependency interface to Firebase Firestore for
-Typescript projects.
+A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 
 > NOTE: This project is still in its infancy, and probably not ready for
 > consumption just yet
@@ -75,8 +74,8 @@ export default {
 Subcollections are place under `sub`. Currently one level of nesting is
 supported.
 
-In this example the collection names in Firestore are snake-cased, but
-if your names are camel-cased the key names should mirror that.
+In this example the collection names in Firestore are snake-cased, but if your
+names are camel-cased the key names should mirror that.
 
 The empty objects are simply placeholders to make the types available at
 runtime. @TODO explain in detail.
@@ -99,7 +98,8 @@ simply re-run this command to update the facade function.
 Now you can use the factory function to wrap your instance of firestore. Below
 is an example showing the different API methods.
 
-You can find the complete source code in the [nodejs example package](./src/packages/example-nodejs)
+You can find the complete source code in the [nodejs example
+package](./src/packages/example-nodejs)
 
 @TODO list API methods in detail.
 
