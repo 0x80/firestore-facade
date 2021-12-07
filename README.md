@@ -62,7 +62,7 @@ as key, and map their document type using a placeholder object as shown below:
 export default {
   root: {
     athletes: {} as Athlete,
-    events: {} as Event,
+    sports_events: {} as Event,
   },
   sub: {
     athletes: {
@@ -75,6 +75,9 @@ export default {
 Subcollections are place under `sub`. Currently one level of nesting is
 supported.
 
+In this example the collection names in Firestore are snake-cased, but
+if your names are camel-cased the key names should mirror that.
+
 The empty objects are simply placeholders to make the types available at
 runtime. @TODO explain in detail.
 
@@ -83,7 +86,7 @@ runtime. @TODO explain in detail.
 From your project command line generate the facade by passing the location of
 the configuration file:
 
-`generate-fade ./src/my-document-types-config.ts`
+`generate-facade ./src/my-document-types-config.ts`
 
 This should generate a file named `facade.ts` (containing the facade factory
 function) in the same location as the config file.
@@ -95,6 +98,8 @@ simply re-run this command to update the facade function.
 
 Now you can use the factory function to wrap your instance of firestore. Below
 is an example showing the different API methods.
+
+You can find the complete source code in the [nodejs example package](./src/packages/example-nodejs)
 
 @TODO list API methods in detail.
 
@@ -139,7 +144,7 @@ const doc = await db.athletes.get(ref.id);
 
 console.log(doc.data);
 
-const { id: eventId } = await db.events.add({
+const { id: eventId } = await db.sports_events.add({
   name: "Olympics",
   year: 2045,
 });

@@ -49,7 +49,7 @@ export async function app() {
 
   console.log(doc.data);
 
-  const { id: eventId } = await db.events.add({
+  const { id: eventId } = await db.sports_events.add({
     name: "Olympics",
     year: 2045,
   });
