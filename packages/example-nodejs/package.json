@@ -4,9 +4,10 @@
   "description": "An example application using firestore-facade",
   "main": "dist/index.js",
   "private": true,
-  "files": [
-    "dist"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0x80/firestore-facade"
+  },
   "type": "module",
   "scripts": {
     "start": "npm run build & node dist/index.js",

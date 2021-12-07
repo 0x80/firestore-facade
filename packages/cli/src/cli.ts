@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-specifier-resolution=node --loader ts-node/esm
 
 import { assert } from "@sindresorhus/is";
 import meow from "meow";
