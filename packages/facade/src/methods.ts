@@ -1,8 +1,9 @@
+import type { firestore } from "firebase-admin";
 import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
 import { FieldPaths } from "./types";
 
 export function createCollectionMethods<T extends object>(
-  db: FirebaseFirestore.Firestore,
+  db: firestore.Firestore,
   collectionPath: string,
 ) {
   return {
@@ -12,7 +13,7 @@ export function createCollectionMethods<T extends object>(
       db.collection(collectionPath).doc(documentId).set(data),
 
     /**
-     * @TODO FirebaseFirestore.UpdateData is not strict at all, we need to find
+     * @TODO firestore.UpdateData is not strict at all, we need to find
      * a way to type the data argument.
      *
      * Problem is that update can get many different types, including number
@@ -29,20 +30,15 @@ export function createCollectionMethods<T extends object>(
 
     get: (documentId: string) => getDocument(db, collectionPath, documentId),
 
-    query: (
-      fn: (
-        ref: FirebaseFirestore.CollectionReference,
-      ) => FirebaseFirestore.Query,
-    ) => getDocuments<T>(fn(db.collection(collectionPath))),
+    query: (fn: (ref: firestore.CollectionReference) => firestore.Query) =>
+      getDocuments<T>(fn(db.collection(collectionPath))),
 
     /**
      * A query where select is used to strongly type the selector and returned
      * document shape using Pick<T, K>
      */
     queryAndSelect<K extends keyof T>(
-      fn: (
-        ref: FirebaseFirestore.CollectionReference,
-      ) => FirebaseFirestore.Query,
+      fn: (ref: firestore.CollectionReference) => firestore.Query,
       selectFields: readonly K[],
     ) {
       return getDocumentsWithSelect<T, K>(

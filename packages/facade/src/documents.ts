@@ -1,3 +1,4 @@
+import type { firestore } from "firebase-admin";
 import { assert, last } from "./utils";
 
 const BATCH_SIZE = 500;
@@ -5,12 +6,10 @@ const BATCH_SIZE = 500;
 export interface FirestoreDocument<T> {
   id: string;
   data: T;
-  ref: FirebaseFirestore.DocumentReference;
+  ref: firestore.DocumentReference;
 }
 
-export function documentFromSnapshot<T>(
-  snapshot: FirebaseFirestore.DocumentSnapshot,
-) {
+export function documentFromSnapshot<T>(snapshot: firestore.DocumentSnapshot) {
   return {
     id: snapshot.id,
     data: snapshot.data() as T,
@@ -19,7 +18,7 @@ export function documentFromSnapshot<T>(
 }
 
 export async function getDocument<T>(
-  db: FirebaseFirestore.Firestore,
+  db: firestore.Firestore,
   collectionName: string,
   documentId: string,
 ): Promise<FirestoreDocument<T>> {
@@ -34,7 +33,7 @@ export async function getDocument<T>(
 }
 
 export async function getDocuments<T>(
-  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+  query: firestore.Query<firestore.DocumentData>,
 ): Promise<FirestoreDocument<T>[]> {
   const finalQuery = query.limit(BATCH_SIZE);
 
@@ -42,7 +41,7 @@ export async function getDocuments<T>(
 }
 
 export async function getDocumentsWithSelect<T, K extends keyof T>(
-  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+  query: firestore.Query<firestore.DocumentData>,
   selectFields: readonly K[],
 ): Promise<FirestoreDocument<Pick<T, K>>[]> {
   const finalQuery = query
@@ -53,7 +52,7 @@ export async function getDocumentsWithSelect<T, K extends keyof T>(
 }
 
 async function _getDocumentsBatch<T>(
-  query: FirebaseFirestore.Query,
+  query: firestore.Query,
 ): Promise<FirestoreDocument<T>[]> {
   const snapshot = await query.get();
 
