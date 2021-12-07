@@ -10,8 +10,7 @@
   "scripts": {
     "test": "npm run build & node dist/test.js",
     "build": "tsc",
-    "generate": "node --experimental-specifier-resolution=node --loader ts-node/esm src/cli.ts",
-    "generate-js": "node --experimental-specifier-resolution=node dist/cli.js"
+    "generate": "node --experimental-specifier-resolution=node --loader ts-node/esm src/cli.ts"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
@@ -26,6 +25,7 @@
   },
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
+    "firestore-facade": "*",
     "meow": "^10.1.2",
     "ts-node": "^10.4.0"
   }

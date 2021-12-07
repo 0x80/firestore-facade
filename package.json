@@ -6,8 +6,8 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "workspaces": [
-    "packages/facade",
     "packages/cli",
+    "packages/facade",
     "packages/example-nodejs"
   ],
   "scripts": {

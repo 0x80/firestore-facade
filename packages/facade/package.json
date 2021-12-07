@@ -10,7 +10,7 @@
   "exports": {
     "./*": "./dist/*.js"
   },
-  "types": "./types.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "npm run build & node dist/test.js",
     "build": "tsc"
@@ -26,6 +26,5 @@
   },
   "peerDependencies": {
     "firebase-admin": ">=9.0.0"
-  },
-  "dependencies": {}
+  }
 }
