@@ -1,8 +1,8 @@
+import { assert } from "@sindresorhus/is";
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
 import { CollectionsConfig } from "./config";
-import { assert } from "./utils";
 
 const firestoreTypeNames = {
   admin: "FirebaseFirestore.Firestore",
@@ -13,17 +13,15 @@ export async function generateFacade(
   configFilePath: string,
   flags: { verbose?: boolean } = {},
 ) {
+  console.log("config file path", configFilePath);
+
   const { default: config } = (await import(configFilePath)) as {
     default: CollectionsConfig;
   };
 
-  /**
-   * Do some basic assertion to see if the default export is the thing we expect
-   */
-  assert(
-    config.root,
-    `Failed to find a property "root" in the default export from file ${configFilePath}`,
-  );
+  console.log(JSON.stringify(config));
+
+  assert.plainObject(config.root);
 
   const { name: configFileName, dir: configFileDirectory } =
     path.parse(configFilePath);

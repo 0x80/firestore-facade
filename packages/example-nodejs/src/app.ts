@@ -1,11 +1,14 @@
+/**
+ * This is an example of client code. Note that everything is strictly typed and
+ * we do not need to import any of the collection types in this context.
+ *
+ * We import the facade factory function which was generated based on the config
+ * file in this directory and use that to wrap the firestore instance.
+ */
 import { createFacade } from "./facade";
 import { firestore, serverTimestamp } from "./firebase-client";
 
-/**
- * This would be an example of client code. Note that everything is typed and we
- * do not need to import any of the types in the calling context.
- */
-(async function run() {
+export async function app() {
   const db = createFacade(firestore);
 
   /**
@@ -85,6 +88,4 @@ import { firestore, serverTimestamp } from "./firebase-client";
   );
 
   partialDocs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
-})()
-  .then(() => console.log("Done"))
-  .catch((err) => console.error(err.message));
+}

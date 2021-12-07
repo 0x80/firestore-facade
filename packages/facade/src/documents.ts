@@ -1,5 +1,4 @@
-import { last } from "remeda";
-import { assert } from "./utils";
+import { assert, last } from "./utils";
 
 const BATCH_SIZE = 500;
 
@@ -62,9 +61,7 @@ async function _getDocumentsBatch<T>(
     return [];
   }
 
-  const lastDoc = last(
-    snapshot.docs,
-  ) as FirebaseFirestore.QueryDocumentSnapshot;
+  const lastDoc = last(snapshot.docs);
 
   const results = snapshot.docs.map((doc) => documentFromSnapshot<T>(doc));
 

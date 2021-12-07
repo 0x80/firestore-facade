@@ -1,6 +1,15 @@
+/**
+ * How you configure the Firebase client is up to you. Here I'm using service
+ * credentials stored in a folder next to "packages". If you want to run this
+ * example I suggest to download the service credentials for your Firebase
+ * project and store them in the same location.
+ *
+ * All firestore-facade requires is a handle to your firestore instance.
+ */
+
 import admin from "firebase-admin";
 
-const serviceAccount = require("../credentials/service-account-key.json");
+const serviceAccount = require("../../credentials/service-account-key.json");
 
 export const adminApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

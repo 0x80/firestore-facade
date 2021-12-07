@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+import { assert } from "@sindresorhus/is";
 import meow from "meow";
 import path from "path";
 import { generateFacade } from "./generate.js";
-import { assert } from "./utils.js";
 
 const cli = meow(
   `
@@ -29,7 +29,7 @@ const cli = meow(
 
 const [configFilePath] = cli.input;
 
-assert(configFilePath, "Missing config file argument to generate-facade");
+assert.string(configFilePath);
 
 const absoluteFilePath = path.resolve(configFilePath);
 

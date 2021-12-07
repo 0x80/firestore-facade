@@ -1,32 +1,21 @@
 {
-  "name": "firestore-facade",
-  "version": "0.0.1-0",
-  "description": "A clean and typed interface to Firebase Firestore",
-  "main": "dist/index.js",
-  "files": [
-    "dist"
-  ],
-  "type": "module",
-  "scripts": {
-    "test": "npm run build & node dist/test.js",
-    "build": "tsc",
-    "generate": "node --experimental-specifier-resolution=node --loader ts-node/esm src/cli.ts",
-    "generate-js": "node --experimental-specifier-resolution=node dist/cli.js"
-  },
+  "name": "firestore-facade-packages",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A monorepo for firestore-facade related packages",
   "author": "Thijs Koerselman",
   "license": "MIT",
-  "bin": {
-    "generate-facade": "dist/cli.js"
+  "workspaces": [
+    "packages/facade",
+    "packages/cli",
+    "packages/example-nodejs"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch"
   },
   "devDependencies": {
-    "@types/prettier": "^2.4.2",
-    "prettier": "^2.5.0",
     "typescript": "^4.5.2"
-  },
-  "dependencies": {
-    "firebase-admin": "^10.0.0",
-    "meow": "^10.1.2",
-    "remeda": "^0.0.30",
-    "ts-node": "^10.4.0"
   }
 }
