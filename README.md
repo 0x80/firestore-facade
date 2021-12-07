@@ -1,82 +1,62 @@
 # Firestore Façade
 
-A clean and strongly typed interface to Firebase Firestore for Typescript
-projects.
+A clean, strongly-typed, zero-dependency interface to Firebase Firestore for
+Typescript projects.
 
----
+## Motivation
 
-**NOTE** This library is still in its proof-of-concept phase and therefore not
-ready for consumption.
+- Reduce boilerplate code and improve readability
+- Provide strict typing on collection methods like `set` and `update`
+- Provide strict typing on query select statements and their partial response
+  documents
 
----
-
-The goal is to keep the API as close to native as possible while providing as
+The aim is to keep the API as close to native as possible while providing as
 much type safety as is still practical. Firestore Façade is a fairly thin
-wrapper that does not prevent you from using using plain Firestore methods. As
-such it is not aiming to cover the full Firestore API surface.
+wrapper which does not prevent you from using using plain Firestore API methods.
+For that reason it is also not aiming to cover the full Firestore API surface.
 
 At the moment this library focusses solely on Node.js using the
 [firestore-admin](https://github.com/firebase/firebase-admin-node) client.
-Hopefully we can make this compatible with the [Cloud
-Firestore](https://github.com/googleapis/nodejs-firestore) in the future,
-because both products are technically the same.
 
-For front-end I would suggest to use something like
-[react-firebase-hooks](https://github.com/csfrequency/react-firebase-hooks).
+It should be possible to make this compatible with the [Cloud
+Firestore](https://github.com/googleapis/nodejs-firestore) with a small
+modification, because both are technically the same product.
 
-The release version will aim to have zero dependencies.
+In the future I would like to add a package addressing the web client and
+another one specifically for React hooks.
 
 ## TODO v1.0
 
 - [x] Add strict typing for `update` method.
-- [ ] Generate facade factory function based in collection config
-- [ ] Convert to monorepo with separate CLI and examples packages
-- [ ] Implement CLI for facade generator
-- [ ] Use peer-dependencies where appropriate
-- [ ] Remove need for other dependencies
-- [ ] Add tests
-- [ ] Test number increment and array update operations
-- [ ] Improve and type the collections configuration
+- [x] Generate facade factory function based in collection config
+- [x] Convert to monorepo with separate CLI and examples packages
+- [x] Implement CLI for facade generator
+- [x] Use peer-dependencies where appropriate
+- [x] Remove need for other dependencies
+- [x] Improve and type the collections configuration
+- [ ] Test and support FieldValue operations for increment and arrays etc
 - [ ] Implement query pagination via generator function
+- [ ] Document all API methods
+- [ ] Optionally add some tests. Not really necessary because the facade code is
+      a only thin wrapper and when something is wrong it is very likely that the
+      compiler will complain.
 
-## Motivation
+## Install
 
-- Reduce boilerplate
-- Strongly typed methods for collections
-- Strongly typed query select arguments and response
+1. `npm install firestore-facade`
+2. `npm install --save-dev firestore-facade-cli`
 
-## Configuration
+## Configure
 
-For each collection and subcollection (one level currently supported), you
-provide a mapping as follows:
+In your repository, create a configuration file. It can be named anything and
+place anywhere. In this file create a **default export** object using a `root`
+and optionally a `sub` property.
+
+In the root property you list all the Firestore root collections using the name
+as key, and map their document type using a placeholder object as shown below:
 
 ```ts
-export type Athlete = {
-  name: string;
-  age: number;
-  skills: {
-    c: boolean;
-    d: string[];
-    tuple: [string, number];
-  };
-  updated_at?: FirebaseFirestore.Timestamp;
-};
-
-type Event = {
-  name: string;
-  year: number;
-};
-
-type Medal = {
-  type: "bronze" | "silver" | "gold";
-};
-
-/**
- * In the definition we cast bogus objects for each of the document
- * types. This configuration only serves as type information when generating the
- * createFacade function, so it knows how to type each of the collection methods.
- */
-export const collectionsDefinition = {
+export default {
   root: {
     athletes: {} as Athlete,
     events: {} as Event,
@@ -89,15 +69,31 @@ export const collectionsDefinition = {
 };
 ```
 
-> @TODO describe how to generate the facade factory function code.
+Subcollections are place under `sub`. Currently one level of nesting is
+supported.
+
+The empty objects are simply placeholders to make the types available at
+runtime. @TODO explain in detail.
+
+## Generate Facade Factory Function
+
+From your project command line generate the facade by passing the location of
+the configuration file:
+
+`generate-fade ./src/my-document-types-config.ts`
+
+This should generate a file named `facade.ts` (containing the facade factory
+function) in the same location as the config file.
+
+Whenever you change something about your collections or their document types,
+simply re-run this command to update the facade function.
 
 ## Usage
 
-Based on a configuration file, which maps each collection to a document type,
-the CLI generates the facade factory function code for you to include in your
-project.
+Now you can use the factory function to wrap your instance of firestore. Below
+is an example showing the different API methods.
 
-The factory wraps your instance of firestore and returns a facade interface.
+@TODO list API methods in detail.
 
 ```ts
 const db = createFacade(firestore);
@@ -123,7 +119,7 @@ await db.athletes.set(ref.id, {
 
 /**
  * For the update function all keys, nested field paths and their values are
- * typed!! 💅
+ * typed.
  *
  * Note that the type allows for arrays and tuples to be set. Mutating their
  * content via a path like "nested.tuple.1" is not allowed. This should be
