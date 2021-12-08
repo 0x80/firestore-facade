@@ -6,14 +6,9 @@
  *
  * All firestore-facade requires is a handle to your firestore instance.
  */
-
 import admin from "firebase-admin";
 
-const serviceAccount = require("../../credentials/service-account-key.json");
-
-export const adminApp = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+export const adminApp = admin.initializeApp();
 
 export const firestore = admin.firestore(adminApp);
 

@@ -2,22 +2,37 @@
   "name": "firestore-facade-example-nodejs",
   "version": "0.0.0",
   "description": "An example application using firestore-facade",
-  "main": "dist/index.js",
   "private": true,
+  "keywords": [
+    "firebase",
+    "firestore",
+    "facade"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/0x80/firestore-facade"
   },
+  "engines": {
+    "node": ">=14"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "type": "module",
+  "exports": {
+    "./*": "./dist/*.js"
+  },
   "scripts": {
-    "start": "npm run build & node dist/index.js",
+    "start": "npm run build && dotenv node --experimental-specifier-resolution=node dist/index.js",
     "build": "tsc"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
   "devDependencies": {
     "@types/prettier": "^2.4.2",
-    "firestore-facade-cli": "file:../cli",
+    "dotenv-cli": "^4.1.1",
+    "firestore-facade-cli": "*",
     "prettier": "^2.5.0",
     "typescript": "^4.5.2"
   },

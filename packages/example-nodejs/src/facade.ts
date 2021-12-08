@@ -5,8 +5,8 @@
  * to update this file.
  */
 
-import def from "./config";
 import { createCollectionMethods } from "firestore-facade";
+import def from "./facade-config";
 
 export function createFacade(db: FirebaseFirestore.Firestore) {
   return {

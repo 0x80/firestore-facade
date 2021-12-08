@@ -2,3 +2,5 @@
 /credentials
 /packages/*/dist
 *.tsbuildinfo
+.env
+.env.*
