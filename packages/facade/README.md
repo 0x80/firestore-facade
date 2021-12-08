@@ -32,7 +32,7 @@ another one specifically for React hooks.
 ### 1. Install
 
 1. `npm install firestore-facade`
-2. `npm install --save-dev firestore-facade-cli`
+2. `npm install firestore-facade-cli --save-dev`
 
 ### 2. Configure Document Type Mapping
 
