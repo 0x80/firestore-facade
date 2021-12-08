@@ -1,6 +1,6 @@
 {
   "name": "firestore-facade-cli",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "The facade generator CLI",
   "keywords": [
     "firebase",
@@ -25,8 +25,8 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "bin": {
-    "generate-facade": "bin/ts-node-esm-cli.sh",
-    "generate-facade-direct": "dist/cli.js"
+    "generate-facade": "dist/cli.js",
+    "generate-facade-bin": "bin/ts-node-esm-cli.sh"
   },
   "devDependencies": {
     "@types/node": "^16.11.12",
