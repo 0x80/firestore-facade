@@ -17,9 +17,7 @@ export async function generateFacade(
 
   log.debug("Config file path:", configFilePath);
 
-  const configModuleContent = (await import(configFilePath)) as {
-    default: CollectionsConfig;
-  };
+  const configModuleContent = await import(configFilePath);
 
   log.debug("Config file content:\n", JSON.stringify(configModuleContent));
 
@@ -28,7 +26,17 @@ export async function generateFacade(
     "Failed to find a default export in the configuration file",
   );
 
-  const { default: config } = configModuleContent;
+  let config = configModuleContent.default;
+
+  /**
+   * There is something strange going on with the ts-node/esm loader it seems.
+   * When running the cli script externally via bin like `yarn run
+   * generate-facade-direct some/config/file.ts` the contents of the file seem
+   * to have a default export with another "default" wrapped inside.
+   */
+  if (!config.root && config.default) {
+    config = config.default;
+  }
 
   assert(
     config.root,
@@ -54,7 +62,9 @@ export async function generateFacade(
     import { createCollectionMethods } from "firestore-facade";
 
     export function createFacade(db: ${
-      firestoreTypeNames[config.options?.context ?? "admin"]
+      firestoreTypeNames[
+        (config as CollectionsConfig).options?.context ?? "admin"
+      ]
     }) {
       return {
         ${genCollections(config, log)}
