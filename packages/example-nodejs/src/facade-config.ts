@@ -1,4 +1,4 @@
-import { Athlete, Medal, SportsEvent } from "./document-types";
+import { Athlete, Medal, SportsEvent } from "./document-types.js";
 
 export default {
   root: {
@@ -10,4 +10,7 @@ export default {
       medals: {} as Medal,
     },
   },
+  // options: {
+  //   useEsm: true,
+  // },
 };

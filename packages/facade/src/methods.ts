@@ -1,5 +1,9 @@
 import type { firestore } from "firebase-admin";
-import { getDocument, getDocuments, getDocumentsWithSelect } from "./documents";
+import {
+  getDocument,
+  getDocuments,
+  getDocumentsWithSelect,
+} from "./documents.js";
 import { FieldPaths } from "./types";
 
 export function createCollectionMethods<T extends object>(

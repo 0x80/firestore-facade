@@ -5,8 +5,8 @@
  * We import the facade factory function which was generated based on the config
  * file in this directory and use that to wrap the firestore instance.
  */
-import { createFacade } from "./facade";
-import { firestore, serverTimestamp } from "./firebase-client";
+import { createFacade } from "./facade.js";
+import { firestore, serverTimestamp } from "./firebase-client.js";
 
 export async function app() {
   const db = createFacade(firestore);

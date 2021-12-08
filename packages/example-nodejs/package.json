@@ -6,7 +6,8 @@
   "keywords": [
     "firebase",
     "firestore",
-    "facade"
+    "facade",
+    "nodejs"
   ],
   "repository": {
     "type": "git",
@@ -15,14 +16,7 @@
   "engines": {
     "node": ">=14"
   },
-  "files": [
-    "dist",
-    "README.md"
-  ],
   "type": "module",
-  "exports": {
-    "./*": "./dist/*.js"
-  },
   "scripts": {
     "start": "npm run build && dotenv node --experimental-specifier-resolution=node dist/index.js",
     "build": "tsc"

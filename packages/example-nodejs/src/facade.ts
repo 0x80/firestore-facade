@@ -6,7 +6,7 @@
  */
 
 import { createCollectionMethods } from "firestore-facade";
-import def from "./facade-config";
+import def from "./facade-config.js";
 
 export function createFacade(db: FirebaseFirestore.Firestore) {
   return {

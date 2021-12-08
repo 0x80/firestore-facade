@@ -58,7 +58,7 @@ export async function generateFacade(
      * to update this file.
      */
 
-    import def from "./${configFileName}";
+    import def from "./${configFileName}.js";
     import { createCollectionMethods } from "firestore-facade";
 
     export function createFacade(db: ${

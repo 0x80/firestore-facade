@@ -1,5 +1,5 @@
 import type { firestore } from "firebase-admin";
-import { assert, last } from "./utils";
+import { assert, last } from "./utils.js";
 
 const BATCH_SIZE = 500;
 

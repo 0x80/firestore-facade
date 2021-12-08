@@ -22,8 +22,10 @@ credentials file. For example:
 GOOGLE_APPLICATION_CREDENTIALS="/Users/me/development/firestore-facade/credentials/service-account-key.json"
 ```
 
-## Start
+## Run Example
 
 `npm run start` or `yarn start` will execute the example code.
 
-Read the code, and the [firestore-facade documentation](../facade/README.md).
+## Documentation
+
+Besides the code you can read the [firestore-facade documentation](../facade/README.md).
