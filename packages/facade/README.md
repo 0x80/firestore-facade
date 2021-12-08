@@ -31,8 +31,13 @@ another one specifically for React hooks.
 
 ### 1. Install
 
-1. `npm install firestore-facade`
-2. `npm install firestore-facade-cli --save-dev`
+- `npm install firestore-facade`
+- `npm install firestore-facade-cli --save-dev`
+
+Or, if you prefer Yarn:
+
+- `yarn add firestore-facade`
+- `yarn add firestore-facade-cli --save-dev`
 
 ### 2. Configure Document Type Mapping
 
@@ -73,6 +78,10 @@ The next step is to generate the facade code by passing the location of the
 configuration file to the `generate-facade` command:
 
 `npx generate-facade ./src/my-document-types-config.ts`
+
+Or if you use Yarn:
+
+`yarn run generate-facade ./src/my-document-types-config.ts`
 
 This should create a file named `facade.ts` containing the facade factory
 function in the same location as the supplied config file.
