@@ -58,8 +58,8 @@ export async function generateFacade(
      * to update this file.
      */
 
-    import def from "./${configFileName}.js";
     import { createCollectionMethods } from "firestore-facade";
+    import def from "./${configFileName}.js"; // Use .js to support ESM targets
 
     export function createFacade(db: ${
       firestoreTypeNames[

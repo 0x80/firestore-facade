@@ -5,14 +5,19 @@ factory function.
 
 ## Usage
 
-`npm install firestore-facade-cli --save-dev`
+`npm install firestore-facade-cli ts-node --save-dev`
 
 `npx generate-facade ./path/to/config.ts`
 
 Or, if you prefer to use Yarn:
 
-`yarn add firestore-facade-cli --dev`
+`yarn add firestore-facade-cli ts-node --dev`
 
 `yarn run generate-facade ./path/to/config.ts`
 
-For more information see the [firestore-facade documentation](../facade/README.md).
+Currently ts-node is required because the generate script tries to resolve the
+ts-node loader from the environment where you call the command. I hope find a
+way to make the command self-contained in the future.
+
+For more information see the [firestore-facade
+documentation](../facade/README.md).

@@ -32,12 +32,16 @@ another one specifically for React hooks.
 ### 1. Install
 
 - `npm install firestore-facade`
-- `npm install firestore-facade-cli --save-dev`
+- `npm install firestore-facade-cli ts-node --save-dev`
 
 Or, if you prefer Yarn:
 
 - `yarn add firestore-facade`
-- `yarn add firestore-facade-cli --save-dev`
+- `yarn add firestore-facade-cli ts-node --save-dev`
+
+Currently ts-node is required because the generate script tries to resolve the
+ts-node loader from the environment where you call the command. I hope find a
+way to make the command self-contained in the future.
 
 ### 2. Configure Document Type Mapping
 
