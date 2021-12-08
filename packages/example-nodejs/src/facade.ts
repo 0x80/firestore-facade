@@ -1,5 +1,5 @@
 /**
- * This file was created 12/8/2021, 9:45:33 AM by the `generate-facade`
+ * This file was created 12/8/2021, 11:06:43 AM by the `generate-facade`
  * command, and is not meant not be edited manually. If you change anything
  * about your database document types, simply re-execute the code generator
  * to update this file.
