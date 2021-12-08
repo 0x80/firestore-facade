@@ -15,11 +15,13 @@ export async function generateFacade(
 ) {
   const log = createLogger(flags.verbose);
 
-  log.debug("Config file path", configFilePath);
+  log.debug("Config file path:", configFilePath);
 
   const configModuleContent = (await import(configFilePath)) as {
     default: CollectionsConfig;
   };
+
+  log.debug("Config file content:\n", JSON.stringify(configModuleContent));
 
   assert(
     configModuleContent.default,
