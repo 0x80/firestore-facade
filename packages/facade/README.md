@@ -27,35 +27,21 @@ modification, because both are technically the same product.
 In the future I would like to add a package addressing the web client and
 another one specifically for React hooks.
 
-## TODO v1.0
+## Usage
 
-- [x] Add strict typing for `update` method.
-- [x] Generate facade factory function based in collection config
-- [x] Convert to monorepo with separate CLI and examples packages
-- [x] Implement CLI for facade generator
-- [x] Use peer-dependencies where appropriate
-- [x] Remove need for other dependencies
-- [x] Improve and type the collections configuration
-- [ ] Test and support FieldValue operations for increment and arrays etc
-- [ ] Implement query pagination via generator function
-- [ ] Document all API methods
-- [ ] Optionally add some tests. Not really necessary because the facade code is
-      a only thin wrapper and when something is wrong it is very likely that the
-      compiler will complain.
-
-## Install
+### 1. Install
 
 1. `npm install firestore-facade`
 2. `npm install --save-dev firestore-facade-cli`
 
-## Configure
+### 2. Configure Document Type Mapping
 
 In your repository, create a configuration file. It can be named anything and
-place anywhere. In this file create a **default export** object using a `root`
-and optionally a `sub` property.
+placed anywhere. In this file you create a **default export** object using a
+`root` and optionally a `sub` property.
 
-In the root property you list all the Firestore root collections using the name
-as key, and map their document type using a placeholder object as shown below:
+In the root property, list all the Firestore root collections using the name as
+key, and apply their document type on a placeholder object as shown below:
 
 ```ts
 export default {
@@ -71,21 +57,22 @@ export default {
 };
 ```
 
-Subcollections are place under `sub`. Currently one level of nesting is
+Subcollections are defined under `sub`. Currently one level of nesting is
 supported.
 
 In this example the collection names in Firestore are snake-cased, but if your
 names are camel-cased the key names should mirror that.
 
-The empty objects are simply placeholders to make the types available at
-runtime. @TODO explain in detail.
+The empty objects are only there to make the types available at runtime.
 
-## Generate Facade Factory Function
+> @TODO explain in more detail.
+
+### 3. Generate Facade Factory Function
 
 The next step is to generate the facade code by passing the location of the
-configuration file:
+configuration file to the `generate-facade` command:
 
-`npm exec generate-facade ./src/my-document-types-config.ts`
+`npx generate-facade ./src/my-document-types-config.ts`
 
 This should create a file named `facade.ts` containing the facade factory
 function in the same location as the supplied config file.
@@ -93,7 +80,7 @@ function in the same location as the supplied config file.
 Whenever you change something about your collections or their document types,
 simply re-run this command to update the facade function.
 
-## Usage
+### 4. Wrap Firestore Instance
 
 Now you can use the facade factory to wrap your instance of the Firestore
 client.
@@ -104,12 +91,14 @@ import { createFacade } from "./facade";
 const db = createFacade(firestore);
 ```
 
+## API
+
 Below is an example showing the different API methods.
 
 You can find the complete source code in the [nodejs example
 package](./src/packages/example-nodejs)
 
-@TODO document API in detail.
+> @TODO document API in detail.
 
 ```ts
 /**

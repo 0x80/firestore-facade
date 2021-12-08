@@ -1,8 +1,8 @@
-import { assert } from "@sindresorhus/is";
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
 import { CollectionsConfig } from "./config";
+import { assert, createLogger, Logger } from "./utils";
 
 const firestoreTypeNames = {
   admin: "FirebaseFirestore.Firestore",
@@ -13,15 +13,25 @@ export async function generateFacade(
   configFilePath: string,
   flags: { verbose?: boolean } = {},
 ) {
-  console.log("config file path", configFilePath);
+  const log = createLogger(flags.verbose);
 
-  const { default: config } = (await import(configFilePath)) as {
+  log.debug("Config file path", configFilePath);
+
+  const configModuleContent = (await import(configFilePath)) as {
     default: CollectionsConfig;
   };
 
-  console.log(JSON.stringify(config));
+  assert(
+    configModuleContent.default,
+    "Failed to find a default export in the configuration file",
+  );
 
-  assert.plainObject(config.root);
+  const { default: config } = configModuleContent;
+
+  assert(
+    config.root,
+    "Failed to find a root property in the configuration object",
+  );
 
   const { name: configFileName, dir: configFileDirectory } =
     path.parse(configFilePath);
@@ -39,32 +49,36 @@ export async function generateFacade(
      */
 
     import def from "./${configFileName}";
-    import { createCollectionMethods } from "./methods";
+    import { createCollectionMethods } from "firestore-facade";
 
     export function createFacade(db: ${
       firestoreTypeNames[config.options?.context ?? "admin"]
     }) {
       return {
-        ${genCollections(config)}
+        ${genCollections(config, log)}
       }
     }
   `;
 
   await fs.promises.writeFile(
     outputFilePath,
-    prettier.format(code, { parser: "typescript" }),
+    /**
+     * We could allow the user passing prettier options, but I figure you might
+     * as wel let you IDE reformat the file to match your project's settings.
+     */
+    prettier.format(code, { parser: "typescript", trailingComma: "all" }),
   );
 
-  console.log("Facade code successfully generated at:", outputFilePath);
+  log.success("Facade code is available at:", outputFilePath);
 }
 
-function genCollections(config: CollectionsConfig) {
+function genCollections(config: CollectionsConfig, log: Logger) {
   const rootCollectionNames = Object.keys(config.root);
 
   let code = "";
 
   for (const collectionName of rootCollectionNames) {
-    console.log(`Generating code for root collection ${collectionName}`);
+    log.debug(`Adding root collection:\t ${collectionName}`);
 
     const subConfig = config.sub[collectionName];
 
@@ -75,7 +89,7 @@ function genCollections(config: CollectionsConfig) {
       ${collectionName}: {
         ...createCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
         sub: (parentDocumentId: string) => ({
-          ${genSubCollections(collectionName, subCollectionNames)}
+          ${genSubCollections(collectionName, subCollectionNames, log)}
         }),
       },`;
     } else {
@@ -91,10 +105,15 @@ function genCollections(config: CollectionsConfig) {
 function genSubCollections(
   rootCollectionName: string,
   subCollectionNames: string[],
+  log: Logger,
 ) {
   let code = "";
 
   for (const collectionName of subCollectionNames) {
+    log.debug(
+      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`,
+    );
+
     code = `${code}
       ${collectionName}: createCollectionMethods<typeof def.sub.${rootCollectionName}.${collectionName}>(
         db,

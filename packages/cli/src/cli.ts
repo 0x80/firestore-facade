@@ -1,9 +1,9 @@
-#!/usr/bin/env node --experimental-specifier-resolution=node --loader ts-node/esm
-
-import { assert } from "@sindresorhus/is";
 import meow from "meow";
 import path from "path";
 import { generateFacade } from "./generate.js";
+import { assert, createLogger } from "./utils.js";
+
+const log = createLogger();
 
 const cli = meow(
   `
@@ -11,7 +11,7 @@ const cli = meow(
 	  $ generate-facade <path-to-config.ts>
 
 	Options
-	  --firestore-type, -v  Enable verbose logging
+	  --verbose, -v  Enable verbose/debug logging
 
 	Examples
 	  $ generate-facade ./src/collections-config.ts
@@ -29,10 +29,10 @@ const cli = meow(
 
 const [configFilePath] = cli.input;
 
-assert.string(configFilePath);
+assert(configFilePath, "A configuration filepath is required");
 
 const absoluteFilePath = path.resolve(configFilePath);
 
 generateFacade(absoluteFilePath, cli.flags).catch((err) => {
-  console.error(`Failed to generate facade code: ${err.message}`);
+  log.error(`Failed to generate facade code: ${err.message}`);
 });
