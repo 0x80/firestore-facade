@@ -1,6 +1,6 @@
 {
   "name": "firestore-facade",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A clean, strongly-typed, zero-dependency API for Firestore Typescript projects",
   "keywords": [
     "firebase",

@@ -32,7 +32,7 @@ export async function app() {
 
   /**
    * For the update function all keys, nested field paths and their values are
-   * typed!! 💅
+   * typed.
    *
    * Note that the type allows for arrays and tuples to be set. Mutating their
    * content via a path like "nested.tuple.1" is not allowed. This should be

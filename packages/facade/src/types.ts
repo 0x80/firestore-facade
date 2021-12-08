@@ -1,5 +1,5 @@
 /**
- * Code *heavily* inspired by
+ * Code based on
  * https://stackoverflow.com/questions/69126879/typescript-deep-keyof-of-a-nested-object-with-related-type#answer-69129328
  */
 
