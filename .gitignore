@@ -1,6 +1,8 @@
 /node_modules
 /credentials
-/packages/*/dist
+dist
+build
 *.tsbuildinfo
 .env
 .env.*
+.turbo

@@ -67,7 +67,7 @@ export async function generateFacade(
       ]
     }) {
       return {
-        ${genCollections(config, log)}
+        ${generateCollectionsCode(config, log)}
       }
     }
   `;
@@ -84,7 +84,7 @@ export async function generateFacade(
   log.success("Facade code is available at:", outputFilePath);
 }
 
-function genCollections(config: CollectionsConfig, log: Logger) {
+function generateCollectionsCode(config: CollectionsConfig, log: Logger) {
   const rootCollectionNames = Object.keys(config.root);
 
   let code = "";
@@ -101,7 +101,7 @@ function genCollections(config: CollectionsConfig, log: Logger) {
       ${collectionName}: {
         ...createCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
         sub: (parentDocumentId: string) => ({
-          ${genSubCollections(collectionName, subCollectionNames, log)}
+          ${generateSubCollectionsCode(collectionName, subCollectionNames, log)}
         }),
       },`;
     } else {
@@ -114,7 +114,7 @@ function genCollections(config: CollectionsConfig, log: Logger) {
   return code;
 }
 
-function genSubCollections(
+function generateSubCollectionsCode(
   rootCollectionName: string,
   subCollectionNames: string[],
   log: Logger,

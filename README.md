@@ -26,5 +26,11 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 - [ ] Document all API methods
 - [ ] Test generate-facade script on Windows and Linux
 - [ ] Optionally add some tests. Not really necessary because the facade code is
-      a only thin wrapper and when something is wrong it is very likely that the
-      compiler will complain.
+      a only a thin wrapper and when something is wrong it is very likely
+      that the compiler will complain.
+
+## Future Versions
+
+- Add support for web client (including version 9)
+- Implement a React hooks package using a similar approach
+- Investigate transactions API for backend

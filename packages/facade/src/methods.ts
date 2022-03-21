@@ -1,4 +1,6 @@
+import type { SetOptions } from "@google-cloud/firestore";
 import type { firestore } from "firebase-admin";
+import { get } from "http";
 import {
   getDocument,
   getDocuments,
@@ -13,8 +15,10 @@ export function createCollectionMethods<T extends object>(
   return {
     add: (data: T) => db.collection(collectionPath).add(data),
 
-    set: (documentId: string, data: T) =>
-      db.collection(collectionPath).doc(documentId).set(data),
+    set: (documentId: string, data: T, options?: SetOptions) =>
+      options
+        ? db.collection(collectionPath).doc(documentId).set(data, options)
+        : db.collection(collectionPath).doc(documentId).set(data),
 
     update: (documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) =>
       db.collection(collectionPath).doc(documentId).update(data),
