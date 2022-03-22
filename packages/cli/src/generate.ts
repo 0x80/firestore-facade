@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
-import { CollectionsConfig } from "./config";
+import { CollectionsConfig } from "./types";
 import { assert, createLogger, Logger } from "./utils";
 
 const firestoreTypeNames = {
