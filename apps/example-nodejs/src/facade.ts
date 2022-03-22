@@ -1,10 +1,14 @@
 /**
- * This file was created 3/22/2022, 9:25:27 AM by the `generate-facade`
- * command, and is not meant not be edited manually. If you change anything
- * about your database document types, simply re-execute the code generator
- * to update this file.
+ * This file was generated 3/22/2022, 5:45:50 PM by the
+ * `generate-facade` command, and should never be edited manually.
+ *
+ * If your database document types have changed since, you should update
+ * your facade configuration file and re-execute the code generator from the
+ * command-line, which will then update this file accordingly.
+ *
+ * Depending on your repository, the command could be:
+ * `npx generate-facade src/facade-config.ts`
  */
-
 import {
   createCollectionMethods,
   createTransactionCollectionMethods,
@@ -26,6 +30,7 @@ export function createFacade(db: FirebaseFirestore.Firestore) {
       db,
       "sports_events",
     ),
+
     useTransaction: (transaction: FirebaseFirestore.Transaction) => ({
       athletes: {
         ...createTransactionCollectionMethods<typeof def.root.athletes>(
@@ -33,7 +38,15 @@ export function createFacade(db: FirebaseFirestore.Firestore) {
           db,
           "athletes",
         ),
+        sub: (parentDocumentId: string) => ({
+          medals: createTransactionCollectionMethods<
+            typeof def.sub.athletes.medals
+          >(transaction, db, `athletes/${parentDocumentId}/medals`),
+        }),
       },
+      sports_events: createTransactionCollectionMethods<
+        typeof def.root.sports_events
+      >(transaction, db, "sports_events"),
     }),
   };
 }

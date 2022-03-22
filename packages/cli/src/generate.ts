@@ -52,13 +52,20 @@ export async function generateFacade(
 
   const code = `
     /**
-     * This file was created ${now.toLocaleString()} by the \`generate-facade\`
-     * command, and is not meant not be edited manually. If you change anything
-     * about your database document types, simply re-execute the code generator
-     * to update this file.
+     * This file was generated ${now.toLocaleString()} by the
+     * \`generate-facade\` command, and should never be edited manually.
+     *
+     * If your database document types have changed since, you should update
+     * your facade configuration file and re-execute the code generator from the
+     * command-line, which will then update this file accordingly.
+     *
+     * Depending on your repository, the command could be:
+     * \`npx generate-facade src/facade-config.ts\`
      */
-
-    import { createCollectionMethods } from "firestore-facade";
+    import {
+      createCollectionMethods,
+      createTransactionCollectionMethods
+    } from "firestore-facade";
     import def from "./${configFileName}.js"; // Use .js to support ESM targets
 
     export function createFacade(db: ${
@@ -151,21 +158,51 @@ function generateTransactionCollectionsCode(
 
     const subConfig = config.sub[collectionName];
 
-    // if (subConfig) {
-    //   const subCollectionNames = Object.keys(subConfig);
+    if (subConfig) {
+      const subCollectionNames = Object.keys(subConfig);
 
-    //   code = `${code}
-    //   ${collectionName}: {
-    //     ...createCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
-    //     sub: (parentDocumentId: string) => ({
-    //       ${generateSubCollectionsCode(collectionName, subCollectionNames, log)}
-    //     }),
-    //   },`;
-    // } else {
-    code = `${code}
-      ${collectionName}: createTransactionCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
+      code = `${code}
+      ${collectionName}: {
+        ...createTransactionCollectionMethods<typeof def.root.${collectionName}>(transaction, db, "${collectionName}"),
+        sub: (parentDocumentId: string) => ({
+          ${generateTransactionSubCollectionsCode(
+            collectionName,
+            subCollectionNames,
+            log,
+          )}
+        }),
+      },`;
+    } else {
+      code = `${code}
+      ${collectionName}: createTransactionCollectionMethods<typeof def.root.${collectionName}>(transaction, db, "${collectionName}"),
     `;
-    // }
+    }
+  }
+
+  return `useTransaction: (transaction: FirebaseFirestore.Transaction) => ({
+   ${code}
+  })`;
+}
+
+function generateTransactionSubCollectionsCode(
+  rootCollectionName: string,
+  subCollectionNames: string[],
+  log: Logger,
+) {
+  let code = "";
+
+  for (const collectionName of subCollectionNames) {
+    log.debug(
+      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`,
+    );
+
+    code = `${code}
+      ${collectionName}: createTransactionCollectionMethods<typeof def.sub.${rootCollectionName}.${collectionName}>(
+        transaction,
+        db,
+        \`${rootCollectionName}/\${parentDocumentId}/${collectionName}\`
+      ),
+    `;
   }
 
   return code;
