@@ -21,7 +21,7 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 - [x] Remove need for other dependencies
 - [x] Improve and type the collections configuration
 - [x] Test support for non-ESM client environment
-- [ ] Test and support FieldValue operations for increment and arrays etc
+- [x] Test and support FieldValue operations for increment and arrays etc
 - [ ] Implement query pagination via generator function
 - [ ] Document all API methods
 - [ ] Test generate-facade script on Windows and Linux

@@ -16,7 +16,7 @@ Or, if you prefer to use Yarn:
 `yarn run generate-facade ./path/to/config.ts`
 
 Currently ts-node is required because the generate script tries to resolve the
-ts-node loader from the environment where you call the command. I hope find a
+ts-node loader from the environment where you call the command. I hope to find a
 way to make the command self-contained in the future.
 
 For more information see the [firestore-facade

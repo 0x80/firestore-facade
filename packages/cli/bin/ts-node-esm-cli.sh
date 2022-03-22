@@ -4,4 +4,4 @@
 # so this is a workaround for that.
 # This is not working yet because ../dist is resolved from the CWD and not this
 # script its location.
-/usr/bin/env node --experimental-specifier-resolution=node --loader ts-node/esm ../dist/cli.js "$@"
+/usr/bin/env node --experimental-specifier-resolution=node --loader ts-node/esm ../../packages/cli/dist/cli.js "$@"

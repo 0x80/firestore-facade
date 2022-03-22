@@ -24,8 +24,8 @@ It should be possible to make this compatible with the [Cloud
 Firestore](https://github.com/googleapis/nodejs-firestore) with a small
 modification, because both are technically the same product.
 
-In the future I would like to add a package addressing the web client and
-another one specifically for React hooks.
+In the future I would like to investigate if this is idea is also feasible for
+the web client and specifically React hooks.
 
 ## Usage
 
@@ -66,13 +66,14 @@ export default {
 };
 ```
 
-Subcollections are defined under `sub`. Currently one level of nesting is
+Subcollections are defined under `sub`. Currently, one level of nesting is
 supported.
 
 In this example the collection names in Firestore are snake-cased, but if your
 names are camel-cased the key names should mirror that.
 
-The empty objects are only there to make the types available at runtime.
+The empty objects are only there to connect the types to runtime data so that
+they can be consumed by the facade factory function.
 
 > @TODO explain in more detail.
 
@@ -166,6 +167,7 @@ await db.athletes.sub(ref.id).medals.add({
   event_id: eventId,
   type: "gold",
 });
+
 /**
  * Queries are using a regular Firestore collection reference, so they largely
  * use the official API and parameters to methods like "where" are not typed.

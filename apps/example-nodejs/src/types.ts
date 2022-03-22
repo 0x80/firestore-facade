@@ -13,6 +13,7 @@ export type Athlete = {
     d: string[];
     tuple: [string, number];
   };
+  phone_number?: string;
   updated_at?: Timestamp;
 };
 

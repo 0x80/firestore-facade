@@ -1,4 +1,4 @@
-import { Athlete, Medal, SportsEvent } from "./document-types.js";
+import { Athlete, Medal, SportsEvent } from "./types.js";
 
 export default {
   root: {

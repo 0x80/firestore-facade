@@ -1,7 +1,7 @@
-import { app } from "./app.js";
+import { example } from "./example.js";
 
 (async function () {
-  app();
+  example();
 })()
   .then(() => console.log("Example finished"))
   .catch((err) => console.error(err.message));
