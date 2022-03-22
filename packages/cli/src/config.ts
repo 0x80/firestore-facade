@@ -17,6 +17,6 @@ export type CollectionsConfig = {
   root: CollectionsDef;
   sub: SubCollectionsDef;
   options: {
-    context?: "admin" | "web";
+    context?: "nodejs" | "web";
   };
 };

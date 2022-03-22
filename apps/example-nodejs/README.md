@@ -1,7 +1,7 @@
 # Firestore Facade Node.js Example
 
-> I don't think it is particularly useful to run this example code, and instead, I
-> advise you to just read through the it. Running the code will inject some
+> I don't think it is particularly useful to run this example code, and instead,
+> I advise you to just read through the it. Running the code will inject some
 > documents into your Firestore database, and that might not be what you want
 > since you'll have to clean it up again.
 
@@ -35,4 +35,5 @@ app. This should update the file at `src/facade.ts`.
 
 ## Documentation
 
-Besides the code you can read the [firestore-facade documentation](../facade/README.md).
+Besides the code you can read the [firestore-facade
+documentation](../facade/README.md).

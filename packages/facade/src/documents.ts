@@ -18,16 +18,11 @@ export function documentFromSnapshot<T>(snapshot: firestore.DocumentSnapshot) {
 }
 
 export async function getDocument<T>(
-  db: firestore.Firestore,
-  collectionName: string,
-  documentId: string,
+  ref: FirebaseFirestore.DocumentReference,
 ): Promise<FirestoreDocument<T>> {
-  const snapshot = await db.collection(collectionName).doc(documentId).get();
+  const snapshot = await ref.get();
 
-  assert(
-    snapshot.exists,
-    `No document ${documentId} exists in collection ${collectionName}`,
-  );
+  assert(snapshot.exists, `No document exists at ${ref.path}`);
 
   return { id: snapshot.id, data: snapshot.data() as T, ref: snapshot.ref };
 }
@@ -82,4 +77,61 @@ async function _getDocumentsBatch<T>(
      */
     return results.concat(await _getDocumentsBatch<T>(nextQuery));
   }
+}
+
+export async function getDocumentFromTransaction<T>(
+  transaction: FirebaseFirestore.Transaction,
+  ref: FirebaseFirestore.DocumentReference,
+) {
+  const doc = await transaction.get(ref);
+
+  assert(doc.exists, `No document available at path ${ref.path}`);
+
+  return { id: doc.id, data: doc.data() as T, ref: doc.ref };
+}
+
+/**
+ * Query documents using a transaction. Note that this is not using any
+ * batching.
+ */
+export async function getDocumentsFromTransaction<T>(
+  transaction: FirebaseFirestore.Transaction,
+  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+): Promise<FirestoreDocument<T>[]> {
+  const snapshot = await transaction.get(query);
+
+  if (snapshot.empty) return [];
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    data: doc.data() as T,
+    ref: doc.ref,
+  }));
+}
+
+/**
+ * Query documents using a transaction in combination with select. Note that
+ * this is not using any batching.
+ */
+export async function getDocumentsFromTransactionWithSelect<
+  T,
+  K extends keyof T,
+>(
+  transaction: FirebaseFirestore.Transaction,
+  query: firestore.Query<firestore.DocumentData>,
+  selectFields: readonly K[],
+): Promise<FirestoreDocument<Pick<T, K>>[]> {
+  const finalQuery = query
+    .limit(BATCH_SIZE)
+    .select(...(selectFields as unknown as string[]));
+
+  const snapshot = await transaction.get(query);
+
+  if (snapshot.empty) return [];
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    data: doc.data() as Pick<T, K>,
+    ref: doc.ref,
+  }));
 }

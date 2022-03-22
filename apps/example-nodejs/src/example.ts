@@ -3,7 +3,7 @@
  * Node.
  */
 import { createFacade } from "./facade.js";
-import { firestore } from "./firebase-client.js";
+import { firestore } from "./firestore-client.js";
 import {
   arrayUnion,
   deleteField,
@@ -109,4 +109,30 @@ export async function example() {
   );
 
   partialDocs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
+
+  /**
+   * Transactions
+   */
+  await firestore.runTransaction(async (transaction) => {
+    const t = db.useTransaction(transaction);
+
+    const doc = await t.athletes.get(ref.id);
+
+    console.log(doc.data);
+
+    const docs = await t.athletes.query((ref) =>
+      ref.where("skills.c", "==", true),
+    );
+
+    console.log(`Retrieved ${docs.length} documents`);
+
+    await t.athletes.update(ref.id, {
+      "skills.d": arrayUnion("transaction_win"),
+    });
+  });
+
+  {
+    const doc = await db.athletes.get(ref.id);
+    console.log(doc.data);
+  }
 }

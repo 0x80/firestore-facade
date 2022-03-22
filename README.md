@@ -22,15 +22,14 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 - [x] Improve and type the collections configuration
 - [x] Test support for non-ESM client environment
 - [x] Test and support FieldValue operations for increment and arrays etc
+- [x] Test and support transactions
 - [ ] Implement query pagination via generator function
 - [ ] Document all API methods
 - [ ] Test generate-facade script on Windows and Linux
-- [ ] Optionally add some tests. Not really necessary because the facade code is
-      a only a thin wrapper and when something is wrong it is very likely
-      that the compiler will complain.
+- [ ] Add some tests using firestore emulator. Not strictly necessary IMO since
+      the code is a only a thin wrapper around the official Firestore API.
 
 ## Future Versions
 
 - Add support for web client (including version 9)
 - Implement a React hooks package using a similar approach
-- Investigate transactions API for backend

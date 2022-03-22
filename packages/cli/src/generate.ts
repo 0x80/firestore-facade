@@ -5,7 +5,7 @@ import { CollectionsConfig } from "./config";
 import { assert, createLogger, Logger } from "./utils";
 
 const firestoreTypeNames = {
-  admin: "FirebaseFirestore.Firestore",
+  nodejs: "FirebaseFirestore.Firestore",
   web: "@TODO",
 };
 
@@ -63,11 +63,12 @@ export async function generateFacade(
 
     export function createFacade(db: ${
       firestoreTypeNames[
-        (config as CollectionsConfig).options?.context ?? "admin"
+        (config as CollectionsConfig).options?.context ?? "nodejs"
       ]
     }) {
       return {
         ${generateCollectionsCode(config, log)}
+        ${generateTransactionCollectionsCode(config, log)}
       }
     }
   `;
@@ -132,6 +133,39 @@ function generateSubCollectionsCode(
         \`${rootCollectionName}/\${parentDocumentId}/${collectionName}\`
       ),
     `;
+  }
+
+  return code;
+}
+
+function generateTransactionCollectionsCode(
+  config: CollectionsConfig,
+  log: Logger,
+) {
+  const rootCollectionNames = Object.keys(config.root);
+
+  let code = "";
+
+  for (const collectionName of rootCollectionNames) {
+    log.debug(`Adding transaction root collection:\t ${collectionName}`);
+
+    const subConfig = config.sub[collectionName];
+
+    // if (subConfig) {
+    //   const subCollectionNames = Object.keys(subConfig);
+
+    //   code = `${code}
+    //   ${collectionName}: {
+    //     ...createCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
+    //     sub: (parentDocumentId: string) => ({
+    //       ${generateSubCollectionsCode(collectionName, subCollectionNames, log)}
+    //     }),
+    //   },`;
+    // } else {
+    code = `${code}
+      ${collectionName}: createTransactionCollectionMethods<typeof def.root.${collectionName}>(db, "${collectionName}"),
+    `;
+    // }
   }
 
   return code;

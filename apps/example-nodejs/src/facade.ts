@@ -5,7 +5,10 @@
  * to update this file.
  */
 
-import { createCollectionMethods } from "firestore-facade";
+import {
+  createCollectionMethods,
+  createTransactionCollectionMethods,
+} from "firestore-facade";
 import def from "./facade-config.js"; // Use .js to support ESM targets
 
 export function createFacade(db: FirebaseFirestore.Firestore) {
@@ -23,5 +26,14 @@ export function createFacade(db: FirebaseFirestore.Firestore) {
       db,
       "sports_events",
     ),
+    useTransaction: (transaction: FirebaseFirestore.Transaction) => ({
+      athletes: {
+        ...createTransactionCollectionMethods<typeof def.root.athletes>(
+          transaction,
+          db,
+          "athletes",
+        ),
+      },
+    }),
   };
 }
