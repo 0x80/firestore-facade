@@ -24,10 +24,11 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 - [x] Test and support FieldValue operations for increment and arrays etc
 - [x] Test and support transactions
 - [ ] Implement query pagination via generator function
+- [ ] Expose field value helpers via package
 - [ ] Document all API methods
-- [ ] Test generate-facade script on Windows and Linux
-- [ ] Add some tests using firestore emulator. Not strictly necessary IMO since
+- [ ] Add tests using firestore emulator. Not strictly necessary IMO since
       the code is a only a thin wrapper around the official Firestore API.
+- [ ] Make sure CLI works on Windows and Linux
 
 ## Future Versions
 

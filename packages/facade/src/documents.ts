@@ -121,17 +121,7 @@ export async function getDocumentsFromTransactionWithSelect<
   query: firestore.Query<firestore.DocumentData>,
   selectFields: readonly K[],
 ): Promise<FirestoreDocument<Pick<T, K>>[]> {
-  const finalQuery = query
-    .limit(BATCH_SIZE)
-    .select(...(selectFields as unknown as string[]));
+  const finalQuery = query.select(...(selectFields as unknown as string[]));
 
-  const snapshot = await transaction.get(query);
-
-  if (snapshot.empty) return [];
-
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    data: doc.data() as Pick<T, K>,
-    ref: doc.ref,
-  }));
+  return getDocumentsFromTransaction<Pick<T, K>>(transaction, finalQuery);
 }
