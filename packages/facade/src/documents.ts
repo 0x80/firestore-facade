@@ -27,6 +27,36 @@ export async function getDocument<T>(
   return { id: snapshot.id, data: snapshot.data() as T, ref: snapshot.ref };
 }
 
+export async function* getDocumentsGen<T>(
+  query: firestore.Query<firestore.DocumentData>,
+): AsyncGenerator<FirestoreDocument<T>[]> {
+  let startAfterSnapshot: FirebaseFirestore.QueryDocumentSnapshot | undefined;
+
+  const limitedQuery = query.limit(BATCH_SIZE);
+
+  do {
+    const pagedQuery = startAfterSnapshot
+      ? limitedQuery.startAfter(startAfterSnapshot)
+      : limitedQuery;
+
+    const snapshot = await pagedQuery.get();
+
+    if (snapshot.empty) {
+      return [];
+    }
+
+    const documents = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      data: doc.data() as T,
+      ref: doc.ref,
+    }));
+
+    yield documents;
+
+    startAfterSnapshot = last(snapshot.docs);
+  } while (startAfterSnapshot);
+}
+
 export async function getDocuments<T>(
   query: firestore.Query<firestore.DocumentData>,
 ): Promise<FirestoreDocument<T>[]> {

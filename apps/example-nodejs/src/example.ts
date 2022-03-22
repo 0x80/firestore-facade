@@ -2,6 +2,7 @@
  * NOTE: These imports require .js because the example code runs using ESM in
  * Node.
  */
+import { getDocumentsGen } from "firestore-facade";
 import { createFacade } from "./facade.js";
 import { firestore } from "./firestore-client.js";
 import {
@@ -10,6 +11,7 @@ import {
   incrementField,
   serverTimestamp,
 } from "./firestore-field-values.js";
+import { Athlete } from "./types.js";
 
 export async function example() {
   /**
@@ -134,5 +136,16 @@ export async function example() {
   {
     const doc = await db.athletes.get(ref.id);
     console.log(doc.data);
+  }
+
+  for await (const documents of getDocumentsGen<Athlete>(
+    firestore.collection("athletes").orderBy("updated_at", "desc"),
+  )) {
+    console.log(
+      documents.map((x) => [
+        x.data.name,
+        x.data.updated_at?.toDate().toISOString(),
+      ]),
+    );
   }
 }
