@@ -33,9 +33,10 @@ from using the original Firestore API methods.
   API, facilitating things like auto-complete and improving refactoring.
 - Methods return a simple document type to reduce boilerplate.
 - Built-in batching for queries on large collections.
-- An async generator based query function to fetch and process large amounts of
+- An async-generator-based query function to fetch and process large amounts of
   documents one chunk at a time.
-- Support for sub-collections (limited to one level).
+- Support for sub-collections (currently limited to one level).
+- Supports and eases use of transactions.
 
 ## Usage
 
