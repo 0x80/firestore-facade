@@ -2,7 +2,6 @@
  * NOTE: These imports require .js because the example code runs using ESM in
  * Node.
  */
-import { getDocumentsGen } from "firestore-facade";
 import { createFacade } from "./facade.js";
 import { firestore } from "./firestore-client.js";
 import {
@@ -138,8 +137,13 @@ export async function example() {
     console.log(doc.data);
   }
 
-  for await (const documents of getDocumentsGen<Athlete>(
-    firestore.collection("athletes").orderBy("updated_at", "desc"),
+  /**
+   * Using an async generator we can query and process documents in a large
+   * collection one chunk at a time. With or without select.
+   */
+  for await (const documents of db.athletes.genQueryAndSelect(
+    (q) => q.orderBy("updated_at", "desc"),
+    ["name", "updated_at"],
   )) {
     console.log(
       documents.map((x) => [

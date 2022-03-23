@@ -1,6 +1,8 @@
 import type { SetOptions } from "@google-cloud/firestore";
 import type { firestore } from "firebase-admin";
 import {
+  genGetDocuments,
+  genGetDocumentsWithSelect,
   getDocument,
   getDocumentFromTransaction,
   getDocuments,
@@ -15,21 +17,27 @@ export function createCollectionMethods<T extends object>(
   collectionPath: string,
 ) {
   return {
-    add: (data: T) => db.collection(collectionPath).add(data),
+    add(data: T) {
+      return db.collection(collectionPath).add(data);
+    },
 
-    get: (documentId: string) =>
-      getDocument<T>(db.collection(collectionPath).doc(documentId)),
+    get(documentId: string) {
+      return getDocument<T>(db.collection(collectionPath).doc(documentId));
+    },
 
-    set: (documentId: string, data: T, options?: SetOptions) =>
-      options
+    set(documentId: string, data: T, options?: SetOptions) {
+      return options
         ? db.collection(collectionPath).doc(documentId).set(data, options)
-        : db.collection(collectionPath).doc(documentId).set(data),
+        : db.collection(collectionPath).doc(documentId).set(data);
+    },
 
-    update: (documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) =>
-      db.collection(collectionPath).doc(documentId).update(data),
+    update(documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) {
+      return db.collection(collectionPath).doc(documentId).update(data);
+    },
 
-    query: (fn: (ref: firestore.CollectionReference) => firestore.Query) =>
-      getDocuments<T>(fn(db.collection(collectionPath))),
+    query(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+      return getDocuments<T>(fn(db.collection(collectionPath)));
+    },
 
     /**
      * A query where select is used to strongly type the selector and returned
@@ -44,6 +52,30 @@ export function createCollectionMethods<T extends object>(
         selectFields,
       );
     },
+
+    /**
+     * The same as query but instead of returning all documents batched and
+     * combined together, it returns an async generator function which yields
+     * each batch of documents so that incremental processing can be done on
+     * large collections.
+     */
+    genQuery(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+      return genGetDocuments<T>(fn(db.collection(collectionPath)));
+    },
+
+    /**
+     * The same as queryAndSelect but returning an async generator function
+     * similar to genQuery.
+     */
+    genQueryAndSelect<K extends keyof T>(
+      fn: (ref: firestore.CollectionReference) => firestore.Query,
+      selectFields: readonly K[],
+    ) {
+      return genGetDocumentsWithSelect<T, K>(
+        fn(db.collection(collectionPath)),
+        selectFields,
+      );
+    },
   };
 }
 
@@ -53,22 +85,29 @@ export function createTransactionCollectionMethods<T extends object>(
   collectionPath: string,
 ) {
   return {
-    get: (documentId: string) =>
-      getDocumentFromTransaction<T>(
+    get(documentId: string) {
+      return getDocumentFromTransaction<T>(
         t,
         db.collection(collectionPath).doc(documentId),
-      ),
+      );
+    },
 
-    set: (documentId: string, data: T, options?: SetOptions) =>
-      options
+    set(documentId: string, data: T, options?: SetOptions) {
+      return options
         ? t.set(db.collection(collectionPath).doc(documentId), data, options)
-        : t.set(db.collection(collectionPath).doc(documentId), data),
+        : t.set(db.collection(collectionPath).doc(documentId), data);
+    },
 
-    update: (documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) =>
-      t.update(db.collection(collectionPath).doc(documentId), data),
+    update(documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) {
+      return t.update(db.collection(collectionPath).doc(documentId), data);
+    },
 
-    query: (fn: (ref: firestore.CollectionReference) => firestore.Query) =>
-      getDocumentsFromTransaction<T>(t, fn(db.collection(collectionPath))),
+    query(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+      return getDocumentsFromTransaction<T>(
+        t,
+        fn(db.collection(collectionPath)),
+      );
+    },
 
     /**
      * A query where select is used to strongly type the selector and returned

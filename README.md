@@ -1,6 +1,6 @@
 # Firestore Façade Packages
 
-A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
+A lightweight, strongly-typed, zero-dependency API for Firestore Typescript projects.
 
 > NOTE: This project is still in its infancy, and probably not ready for
 > consumption just yet
@@ -9,7 +9,10 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 
 - [Facade](./packages/facade/README.md)
 - [CLI](./packages/cli/README.md)
-- [Node.js Example](./packages/example-nodejs/README.md)
+
+## Apps
+
+- [Node.js Example](./apps/example-nodejs/README.md)
 
 ## TODO v1.0
 
@@ -33,7 +36,7 @@ A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch
       size if needed.
 
-## Future Versions
+## Future Ambitions
 
-- Add support for web client (including version 9)
-- Implement a React hooks package using a similar approach
+- Implement a facade package targeting the firebase web client.
+- Implement a React hooks package based on the same concept.
