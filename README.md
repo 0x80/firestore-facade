@@ -7,7 +7,7 @@ See the [Facade package README](./packages/facade/README.md) for more details.
 
 ## Disclaimer
 
-Currently only NodeJS is supported, and the CLI has been tested only on MacOS.
+Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 
 ## Packages
 

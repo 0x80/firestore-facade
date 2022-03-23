@@ -5,8 +5,7 @@ Firestore.
 
 ## Disclaimer
 
-Currently only NodeJS is supported, and the CLI has been
-tested only on MacOS.
+Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 
 ## Introduction
 
@@ -25,6 +24,18 @@ the official Firestore API.
 The aim is to keep the API as close to native as possible while providing as
 much type safety as is still practical. Firestore Façade does not prevent you
 from using the original Firestore API methods.
+
+## Features
+
+- A lightweight abstraction over the native Firestore API with no discernable
+  runtime cost.
+- Almost completely typed data for documents and collections using a familiar
+  API, facilitating things like auto-complete and improving refactoring.
+- Methods return a simple document type to reduce boilerplate.
+- Built-in batching for queries on large collections.
+- An async generator based query function to fetch and process large amounts of
+  documents one chunk at a time.
+- Support for sub-collections (limited to one level).
 
 ## Supported Platforms
 
