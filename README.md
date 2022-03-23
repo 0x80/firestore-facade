@@ -38,7 +38,6 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 - [ ] Add tests using firestore emulator. Not strictly necessary IMO since the
       code is a only a thin wrapper around the official Firestore API.
 - [ ] Make sure CLI works on Windows and Linux
-- [ ] Rename package facade to facade-node
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch
       size if needed.
 

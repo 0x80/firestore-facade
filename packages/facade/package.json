@@ -1,11 +1,13 @@
 {
   "name": "firestore-facade",
   "version": "0.1.7",
-  "description": "A clean, strongly-typed, zero-dependency API for Firestore Typescript projects",
+  "description": "A simplified, strongly-typed, zero-dependency API for Typescript projects using Firestore",
   "keywords": [
     "firebase",
     "firestore",
-    "facade"
+    "facade",
+    "façade",
+    "typescript"
   ],
   "repository": {
     "type": "git",
