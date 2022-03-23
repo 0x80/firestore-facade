@@ -1,14 +1,20 @@
 # Firestore Façade Packages
 
-A lightweight, strongly-typed, zero-dependency API for Firestore Typescript projects.
+A simplified, strongly-typed, zero-dependency API for Typescript projects using
+Firestore.
 
-> NOTE: This project is still in its infancy, and probably not ready for
-> consumption just yet
+See the [Facade package README](./packages/facade/README.md) for more details.
+
+## Disclaimer
+
+Currently only NodeJS is supported, and the CLI has been tested only on MacOS.
 
 ## Packages
 
-- [Facade](./packages/facade/README.md)
-- [CLI](./packages/cli/README.md)
+- [firestore-facade](./packages/facade/README.md) The Firestore Facade API for
+  Node.js
+- [firestore-facade-cli](./packages/cli/README.md) The command-line tool
+  required to generate the custom facade code based on your configuration.
 
 ## Apps
 
@@ -26,11 +32,11 @@ A lightweight, strongly-typed, zero-dependency API for Firestore Typescript proj
 - [x] Test support for non-ESM client environment
 - [x] Test and support FieldValue operations for increment and arrays etc
 - [x] Test and support transactions
-- [ ] Implement query pagination via generator function
+- [x] Implement query pagination via generator function
 - [ ] Expose field value helpers via package
 - [ ] Document all API methods
-- [ ] Add tests using firestore emulator. Not strictly necessary IMO since
-      the code is a only a thin wrapper around the official Firestore API.
+- [ ] Add tests using firestore emulator. Not strictly necessary IMO since the
+      code is a only a thin wrapper around the official Firestore API.
 - [ ] Make sure CLI works on Windows and Linux
 - [ ] Rename package facade to facade-node
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch

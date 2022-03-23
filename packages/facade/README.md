@@ -1,62 +1,82 @@
 # Firestore Façade
 
-A clean, strongly-typed, zero-dependency API for Firestore Typescript projects.
+A simplified, strongly-typed, zero-dependency API for Typescript projects using
+Firestore.
 
-> NOTE: This project is still in its infancy, and probably not ready for
-> consumption just yet
+## Disclaimer
 
-## Motivation
+Currently only NodeJS is supported, and the CLI has been
+tested only on MacOS.
 
-- Reduce boilerplate code and improve readability
-- Provide strict typing on collection methods like `set` and `update`
-- Provide strict typing on query select statements and their partial response
-  documents
+## Introduction
+
+Using the official Firestore API with Typescript requires a lot of boilerplate
+if you want to type your data collections. It requires discipline to manually
+cast the return values from queries, and pass the correct data to methods like
+`set` and `update`. I found this way of working cumbersome and error-prone, and
+it defeats much of the convenience and safety that Typescript naturally brings.
+
+Firestore Façade removes virtually all boilerplate code while adding strict
+typing on arguments and return values from various methods. It does this by
+generating a thin layer of code, based on your Firestore document types. The
+resulting code is committed to your repository and acts as a façade interface to
+the official Firestore API.
 
 The aim is to keep the API as close to native as possible while providing as
-much type safety as is still practical. Firestore Façade is a fairly thin
-wrapper which does not prevent you from using using plain Firestore API methods.
-For that reason it is also not aiming to cover the full Firestore API surface.
+much type safety as is still practical. Firestore Façade does not prevent you
+from using the original Firestore API methods.
+
+## Supported Platforms
 
 At the moment this library focusses solely on Node.js using the
-[firestore-admin](https://github.com/firebase/firebase-admin-node) client.
+[firestore-admin](https://github.com/firebase/firebase-admin-node) client, and
+the most of the code is providing patterns that are useful for backend
+applications.
 
-It should be possible to make this compatible with the [Cloud
-Firestore](https://github.com/googleapis/nodejs-firestore) with a small
-modification, because both are technically the same product.
+It should be very possible to make this compatible with the [Cloud
+Firestore](https://github.com/googleapis/nodejs-firestore) with a only a small
+modification, because both are technically the same product. However, a
+one-on-one port does not seem feasible as typically you'll want different
+behavior from documents in a front-end application.
 
-In the future I would like to investigate if this is idea is also feasible for
-the web client and specifically React hooks.
+A web client usually wants to subscribe to updates on the document it fetches,
+whereas the backend will typically only query and process a document once.
+
+I plan to investigate if the same concept is also feasible for a web client and
+specifically something like React hooks.
 
 ## Usage
 
 ### 1. Install
 
-- `npm install firestore-facade`
-- `npm install firestore-facade-cli ts-node --save-dev`
+1. `npm install firestore-facade`
+2. `npm install firestore-facade-cli ts-node --save-dev`
 
-Or, if you prefer Yarn:
+Or, if you prefer to use Yarn:
 
-- `yarn add firestore-facade`
-- `yarn add firestore-facade-cli ts-node --save-dev`
+1. `yarn add firestore-facade`
+2. `yarn add firestore-facade-cli ts-node --save-dev`
 
-Currently ts-node is required because the generate script tries to resolve the
-ts-node loader from the environment where you call the command. I hope find a
-way to make the command self-contained in the future.
+Currently ts-node is required because the `generate-facade` script tries to
+resolve the ts-node loader from the environment where you execute the command. I
+hope to find a way to make the command self-contained in the future.
 
-### 2. Configure Document Type Mapping
+### 2. Configure The Document Type Mapping
 
-In your repository, create a configuration file. It can be named anything and
-placed anywhere. In this file you create a **default export** object using a
-`root` and optionally a `sub` property.
+In your repository, create a configuration file to be consumed by the facade
+generator. It can be named anything and placed anywhere. In this file you create
+a **default export** object using a `root` and optionally a `sub` property as
+shown below.
 
-In the root property, list all the Firestore root collections using the name as
-key, and apply their document type on a placeholder object as shown below:
+In the root property, list all the Firestore root collections using the
+collection name as the key, and apply the document type via a placeholder object
+as follows:
 
 ```ts
 export default {
   root: {
     athletes: {} as Athlete,
-    sports_events: {} as Event,
+    sports_events: {} as SportsEvent,
   },
   sub: {
     athletes: {
@@ -69,18 +89,17 @@ export default {
 Subcollections are defined under `sub`. Currently, one level of nesting is
 supported.
 
-In this example the collection names in Firestore are snake-cased, but if your
-names are camel-cased the key names should mirror that.
+In this example the collection names in Firestore are snake-cased, but if yours
+are camel-cased the key names should mirror that.
 
 The empty objects are only there to connect the types to runtime data so that
-they can be consumed by the facade factory function.
+the type information can be consumed by the facade factory function.
 
-> @TODO explain in more detail.
-
-### 3. Generate Facade Factory Function
+### 3. Generate The Facade Factory Function
 
 The next step is to generate the facade code by passing the location of the
-configuration file to the `generate-facade` command:
+configuration file you just created to the `generate-facade` executable. From
+the root of your repository the command would look something like:
 
 `npx generate-facade ./src/my-document-types-config.ts`
 
@@ -88,16 +107,17 @@ Or if you use Yarn:
 
 `yarn run generate-facade ./src/my-document-types-config.ts`
 
-This should create a file named `facade.ts` containing the facade factory
-function in the same location as the supplied config file.
+This should output a file named `facade.ts` next to the supplied configuration
+file, which then contains the facade code custom to your project.
 
-Whenever you change something about your collections or their document types,
-simply re-run this command to update the facade function.
+Whenever you change anything about your collections or their document types,
+simply update the configuration and re-run this command to update the facade to
+match your new types.
 
-### 4. Wrap Firestore Instance
+### 4. Wrap The Firestore Instance
 
 Now you can use the facade factory to wrap your instance of the Firestore
-client.
+client:
 
 ```ts
 import { createFacade } from "./facade";
@@ -105,91 +125,182 @@ import { createFacade } from "./facade";
 const db = createFacade(firestore);
 ```
 
+And that's it! We'll discuss the various API methods below.
+
 ## API
-
-Below is an example showing the different API methods.
-
-You can find the complete source code in the [nodejs example
-package](./src/packages/example-nodejs)
 
 > @TODO document API in detail.
 
+Below you will find some example code calling the different API methods.
+Detailed documentation will follow later but most of it should look very
+familiar if you have experience with Firestore.
+
+You can find the complete source code in the [nodejs example
+app](./src/apps/example-nodejs)
+
 ```ts
 /**
- * Add and set will enforce the exact document type for each collection. Each
- * collection name is a property, so no more use of untyped strings to
- * reference collections.
+ * NOTE: These imports require .js because the example code runs using ESM in
+ * Node.
  */
-const ref = await db.athletes.add({
-  name: "Joe",
-  age: 23,
-  skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
-});
+import { createFacade } from "./facade.js";
+import { firestore } from "./firestore-client.js";
+import {
+  arrayUnion,
+  deleteField,
+  incrementField,
+  serverTimestamp,
+} from "./firestore-field-values.js";
 
-console.log(`Stored new document at collection_a/${ref.id}`);
+export async function example() {
+  /**
+   * We import the facade factory function, which was generated based on the
+   * config file in this directory, and use that to wrap the firestore instance.
+   */
+  const db = createFacade(firestore);
 
-await db.athletes.set(ref.id, {
-  name: "Jane",
-  age: 26,
-  skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 456] },
-});
+  /**
+   * Add and set will enforce the exact document type for each collection. Each
+   * collection name is a property, so no more use of untyped strings to
+   * reference collections.
+   */
+  const ref = await db.athletes.add({
+    name: "Joe",
+    age: 23,
+    skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
+  });
 
-/**
- * For the update function all keys, nested field paths and their values are
- * typed.
- *
- * Note that the type allows for arrays and tuples to be set. Mutating their
- * content via a path like "nested.tuple.1" is not allowed. This should be
- * done the Firestore way using FieldValue objects (not supported yet).
- */
-await db.athletes.update(ref.id, {
-  age: 27,
-  "skills.c": true,
-  "skills.tuple": ["bar", 890],
-  updated_at: serverTimestamp(),
-});
+  console.log(`Stored new document at collection_a/${ref.id}`);
 
-const doc = await db.athletes.get(ref.id);
+  await db.athletes.set(ref.id, {
+    name: "Jane",
+    age: 26,
+    skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 456] },
+    phone_number: "+31(0)612345678",
+  });
 
-console.log(doc.data);
+  {
+    const doc = await db.athletes.get(ref.id);
+    console.log(doc.data.name, doc.data.age);
+  }
 
-const { id: eventId } = await db.sports_events.add({
-  name: "Olympics",
-  year: 2045,
-});
+  /**
+   * For the update function all keys, nested field paths and their values are
+   * typed.
+   *
+   * Note that the type allows for arrays and tuples to be set. Mutating their
+   * content should be done via Firestore FieldValue helpers like arrayUnion.
+   */
+  await db.athletes.update(ref.id, {
+    age: incrementField(1),
+    "skills.c": true,
+    "skills.d": arrayUnion("four_union", "five_union"),
+    "skills.tuple": ["bar", 890],
+    phone_number: deleteField(),
+    updated_at: serverTimestamp(),
+  });
 
-/**
- * Subcollections are accessed by passing a parent document id to the sub
- * method. Currently one level of nesting is supported, but more would be
- * possible if required.
- */
-await db.athletes.sub(ref.id).medals.add({
-  event_id: eventId,
-  type: "gold",
-});
+  {
+    const doc = await db.athletes.get(ref.id);
+    console.log(doc.data);
+  }
 
-/**
- * Queries are using a regular Firestore collection reference, so they largely
- * use the official API and parameters to methods like "where" are not typed.
- *
- * The query does use automatic batching to fetch all documents in chunks. An
- * alternative, using generator function, will be available in the future.
- */
-const fullDocs = await db.athletes.query((ref) =>
-  ref.where("skills.c", "==", true),
-);
+  const { id: eventId } = await db.sports_events.add({
+    name: "Olympics",
+    year: 2045,
+  });
 
-console.log(`Retrieved ${fullDocs.length} documents`);
+  /**
+   * Subcollections are accessed by passing a parent document id to the sub
+   * method. Currently one level of nesting is supported, but more would be
+   * possible if required.
+   */
+  await db.athletes.sub(ref.id).medals.add({
+    event_id: eventId,
+    type: "gold",
+  });
 
-/**
- * Perform a query with document field selection. The fields argument is
- * typed, and the response document is typed to only contain the picked
- * properties.
- */
-const partialDocs = await db.athletes.queryAndSelect(
-  (ref) => ref.where("updated_at", "<", new Date()),
-  ["name", "skills"],
-);
+  /**
+   * Queries are using a regular Firestore collection reference, so they largely
+   * use the official API and parameters to methods like "where" are not typed.
+   *
+   * The query internally uses batching to fetch all documents in chunks and
+   * return them combined. An alternative API is available using an async
+   * generator function to query and process files in separate chunks.
+   */
+  {
+    const docs = await db.athletes.query((ref) =>
+      ref.where("skills.c", "==", true),
+    );
 
-partialDocs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
+    console.log(`Retrieved ${docs.length} documents`);
+  }
+
+  /**
+   * Perform a query with document field selection. The fields argument is
+   * typed, and the response document is typed to only contain the picked
+   * properties.
+   */
+  {
+    const docs = await db.athletes.queryAndSelect(
+      (ref) => ref.where("updated_at", "<", new Date()),
+      ["name", "skills"],
+    );
+
+    docs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
+  }
+
+  /**
+   * Using transactions
+   */
+  await firestore.runTransaction(async (transaction) => {
+    const t = db.useTransaction(transaction);
+
+    const doc = await t.athletes.get(ref.id);
+
+    console.log(doc.data);
+
+    const docs = await t.athletes.query((ref) =>
+      ref.where("skills.c", "==", true),
+    );
+
+    console.log(`Retrieved ${docs.length} documents`);
+
+    await t.athletes.update(ref.id, {
+      "skills.d": arrayUnion("transaction_win"),
+    });
+  });
+
+  {
+    const doc = await db.athletes.get(ref.id);
+    console.log(doc.data);
+  }
+
+  /**
+   * Using an async generator we can query and process documents in a large
+   * collection one chunk at a time, optionally with select.
+   */
+  for await (const documents of db.athletes.genQueryAndSelect(
+    (ref) => ref.orderBy("updated_at", "desc"),
+    ["name", "updated_at"],
+  )) {
+    console.log(
+      documents.map((x) => [
+        x.data.name,
+        x.data.updated_at?.toDate().toISOString(),
+      ]),
+    );
+  }
+}
 ```
+
+## Caveats
+
+Not everything is strictly typed. Since one of the aims was to stay as close to
+the native API as practically feasible, some compromises were made:
+
+- All query `where` clauses are not strictly typed. I don't see this as a huge
+  problem as you will probably notice any mistake quite quickly and typically it
+  would not have destructive consequences if you make a mistake there.
+- The API currently allows you to call `deleteField()` on a required type
+  property.

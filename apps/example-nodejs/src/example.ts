@@ -10,7 +10,6 @@ import {
   incrementField,
   serverTimestamp,
 } from "./firestore-field-values.js";
-import { Athlete } from "./types.js";
 
 export async function example() {
   /**
@@ -28,7 +27,6 @@ export async function example() {
     name: "Joe",
     age: 23,
     skills: { c: true, d: ["one", "two", "three"], tuple: ["foo", 123] },
-    phone_number: "+31(0)612345678",
   });
 
   console.log(`Stored new document at collection_a/${ref.id}`);
@@ -42,7 +40,7 @@ export async function example() {
 
   {
     const doc = await db.athletes.get(ref.id);
-    console.log(doc.data);
+    console.log(doc.data.name, doc.data.age);
   }
 
   /**
@@ -57,11 +55,6 @@ export async function example() {
     "skills.c": true,
     "skills.d": arrayUnion("four_union", "five_union"),
     "skills.tuple": ["bar", 890],
-    /**
-     * @TODO see if we can make deleteField() only acceptable with field is
-     * declared optional. Ideally you would not be allowed to delete a field
-     * from the database if the document type claims it's always there.
-     */
     phone_number: deleteField(),
     updated_at: serverTimestamp(),
   });
@@ -90,29 +83,34 @@ export async function example() {
    * Queries are using a regular Firestore collection reference, so they largely
    * use the official API and parameters to methods like "where" are not typed.
    *
-   * The query does use automatic batching to fetch all documents in chunks. An
-   * alternative, using generator function, will be available in the future.
+   * The query internally uses batching to fetch all documents in chunks and
+   * return them combined. An alternative API is available using an async
+   * generator function to query and process files in separate chunks.
    */
-  const fullDocs = await db.athletes.query((ref) =>
-    ref.where("skills.c", "==", true),
-  );
+  {
+    const docs = await db.athletes.query((ref) =>
+      ref.where("skills.c", "==", true),
+    );
 
-  console.log(`Retrieved ${fullDocs.length} documents`);
+    console.log(`Retrieved ${docs.length} documents`);
+  }
 
   /**
    * Perform a query with document field selection. The fields argument is
    * typed, and the response document is typed to only contain the picked
    * properties.
    */
-  const partialDocs = await db.athletes.queryAndSelect(
-    (ref) => ref.where("updated_at", "<", new Date()),
-    ["name", "skills"],
-  );
+  {
+    const docs = await db.athletes.queryAndSelect(
+      (ref) => ref.where("updated_at", "<", new Date()),
+      ["name", "skills"],
+    );
 
-  partialDocs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
+    docs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
+  }
 
   /**
-   * Transactions
+   * Using transactions
    */
   await firestore.runTransaction(async (transaction) => {
     const t = db.useTransaction(transaction);
@@ -139,10 +137,10 @@ export async function example() {
 
   /**
    * Using an async generator we can query and process documents in a large
-   * collection one chunk at a time. With or without select.
+   * collection one chunk at a time, optionally with select.
    */
   for await (const documents of db.athletes.genQueryAndSelect(
-    (q) => q.orderBy("updated_at", "desc"),
+    (ref) => ref.orderBy("updated_at", "desc"),
     ["name", "updated_at"],
   )) {
     console.log(
