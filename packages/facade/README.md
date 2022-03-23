@@ -291,8 +291,8 @@ export async function example() {
 Not everything is strictly typed. Since one of the aims was to stay as close to
 the native API as practically feasible, some compromises were made:
 
-- All query `where` clauses are not strictly typed. I don't see this as a huge
-  problem as you will probably notice any mistake quite quickly and typically it
-  would not have destructive consequences if you make a mistake there.
+- Everything in a query `where` clause is not typed, as it is currently just
+  exposing the native Firestore method. I don't consider this a big
+  problem and frankly, I don't see an easy solution.
 - The API currently allows you to call `deleteField()` on a required type
   property.
