@@ -37,25 +37,6 @@ from using the original Firestore API methods.
   documents one chunk at a time.
 - Support for sub-collections (limited to one level).
 
-## Supported Platforms
-
-At the moment this library focusses solely on Node.js using the
-[firestore-admin](https://github.com/firebase/firebase-admin-node) client, and
-the most of the code is providing patterns that are useful for backend
-applications.
-
-It should be very possible to make this compatible with the [Cloud
-Firestore](https://github.com/googleapis/nodejs-firestore) with a only a small
-modification, because both are technically the same product. However, a
-one-on-one port does not seem feasible as typically you'll want different
-behavior from documents in a front-end application.
-
-A web client usually wants to subscribe to updates on the document it fetches,
-whereas the backend will typically only query and process a document once.
-
-I plan to investigate if the same concept is also feasible for a web client and
-specifically something like React hooks.
-
 ## Usage
 
 ### 1. Install
