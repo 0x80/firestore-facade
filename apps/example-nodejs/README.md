@@ -9,8 +9,8 @@
 
 From the **root of the monorepo** run:
 
-1. `npm install` or `yarn install`
-2. `npm run build` or `yarn build`
+1. `npm install`
+2. `npm run build`
 
 ## Configure Credentials
 
@@ -27,15 +27,16 @@ GOOGLE_APPLICATION_CREDENTIALS="/Users/me/development/firestore-facade/credentia
 
 ## Run Example Code
 
-Running `npm run start` or `yarn start` from the `app/example-nodejs` folder
-will execute the example code and output some data to the console. This should
-illustrate that the facade is working correctly.
+Running `npm run start` from the `app/example-nodejs` folder will execute the
+example code and output some data to the console. This should illustrate that
+the facade is working correctly.
 
 ## Regenerate The Facade Code
 
-You can try to alter the `facade-config` file and then recreate the facade code by
-running `npx generate-facade src/facade-config.ts` from the root of the example
-app. This should update the file at `src/facade.ts` accordingly.
+You can try to alter the [facade-config](./src/facade-config.ts) file and then
+recreate the facade code by running `npx generate-facade src/facade-config.ts`
+from the root of the example app. This should update the file at `src/facade.ts`
+accordingly.
 
 ## Documentation
 
