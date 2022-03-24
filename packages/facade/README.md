@@ -23,7 +23,7 @@ the official Firestore API.
 
 The aim is to keep the API as close to native as possible while providing as
 much type safety as is still practical. Firestore Façade does not prevent you
-from using the original Firestore API methods.
+from using the original Firestore API alongside if you wish to do so.
 
 ## Features
 
@@ -48,7 +48,7 @@ from using the original Firestore API methods.
 Or, if you prefer to use Yarn:
 
 1. `yarn add firestore-facade`
-2. `yarn add firestore-facade-cli ts-node --save-dev`
+2. `yarn add firestore-facade-cli ts-node --dev`
 
 Currently ts-node is required because the `generate-facade` script tries to
 resolve the ts-node loader from the environment where you execute the command. I
