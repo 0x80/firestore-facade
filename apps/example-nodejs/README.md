@@ -10,7 +10,7 @@
 From the **root of the monorepo** run:
 
 1. `npm install` or `yarn install`
-2. `npx turbo run build`
+2. `npm run build` or `yarn build`
 
 ## Configure Credentials
 
