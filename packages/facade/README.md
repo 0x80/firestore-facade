@@ -22,8 +22,10 @@ resulting code is committed to your repository and acts as a façade interface t
 the official Firestore API.
 
 The aim is to keep the API as close to native as possible while providing as
-much type safety as is still practical. Firestore Façade does not prevent you
-from using the original Firestore API alongside if you wish to do so.
+much type safety as is still practical. In order to simplify the API some
+choices have been made based on common usage scenarios. Firestore Façade does
+not prevent you from using the original Firestore API alongside if you encounter
+a situation where these choices become limiting.
 
 ## Features
 
@@ -293,7 +295,7 @@ Not everything is strictly typed. Since one of the aims was to stay as close to
 the native API as practically feasible, some compromises were made:
 
 - Everything in a query `where` clause is not typed, as it is currently just
-  exposing the native Firestore method. I don't consider this a big
-  problem and frankly, I don't see an easy solution.
+  exposing the native Firestore method. I don't consider this a big problem and
+  frankly, I don't see an easy solution.
 - The API currently allows you to call `deleteField()` on a required type
   property.

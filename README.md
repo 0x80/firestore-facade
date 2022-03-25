@@ -23,7 +23,7 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 ## TODO v1.0
 
 - [x] Add strict typing for `update` method
-- [x] Generate facade factory function based in collection config
+- [x] Generate facade factory function based on collection config
 - [x] Convert to monorepo with separate CLI and examples packages
 - [x] Implement CLI for facade generator
 - [x] Use peer-dependencies where appropriate
@@ -33,7 +33,8 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 - [x] Test and support FieldValue operations for increment and arrays etc
 - [x] Test and support transactions
 - [x] Implement query pagination via generator function
-- [ ] Expose field value helpers via package
+- [x] Expose field value helpers via package
+- [ ] Start using changesets
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch
       size if needed
 - [ ] Consider getIfExist/Possibly, delete, batchedDelete
