@@ -14,7 +14,7 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 - [firestore-facade](./packages/facade/README.md) The Firestore Facade API for
   Node.js
 - [firestore-facade-cli](./packages/cli/README.md) The command-line tool
-  required to generate the custom facade code based on your configuration.
+  required to generate the custom facade code based on your configuration
 
 ## Apps
 
@@ -22,7 +22,7 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 
 ## TODO v1.0
 
-- [x] Add strict typing for `update` method.
+- [x] Add strict typing for `update` method
 - [x] Generate facade factory function based in collection config
 - [x] Convert to monorepo with separate CLI and examples packages
 - [x] Implement CLI for facade generator
@@ -35,19 +35,19 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 - [x] Implement query pagination via generator function
 - [ ] Expose field value helpers via package
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch
-      size if needed.
+      size if needed
 - [ ] Consider getIfExist/Possibly, delete, batchedDelete
 - [ ] Consider adding getFirst (likely not needed if limit can be used in
       queries)
 - [ ] Document all API methods
 - [ ] Add tests using firestore emulator. Not strictly necessary IMO since the
-      code is a only a thin wrapper around the official Firestore API.
+      code is a only a thin wrapper around the official Firestore API
 - [ ] Make sure CLI works on Windows and Linux
 
 ## Future Ambitions
 
 - Add support for Cloud Firestore (instead of Firebase Firestore)
-- Use the same concept to create a package for web clients
+- Create a package for web clients based on the same concept
 
 ## Supported Platforms
 

@@ -1,15 +1,15 @@
 /**
- * NOTE: These imports require .js because the example code runs using ESM in
+ * NOTE: Local imports require .js because the example code runs using ESM in
  * Node.
  */
-import { createFacade } from "./facade.js";
-import { firestore } from "./firestore-client.js";
 import {
   arrayUnion,
   deleteField,
   incrementField,
   serverTimestamp,
-} from "./firestore-field-values.js";
+} from "firestore-facade";
+import { createFacade } from "./facade.js";
+import { firestore } from "./firestore-client.js";
 
 export async function example() {
   /**
