@@ -44,21 +44,13 @@ a situation where these choices become limiting.
 
 ### 1. Install
 
-1. `npm install firestore-facade`
-2. `npm install firestore-facade-cli ts-node --save-dev`
+1. Add the cli as a dev dependency:
+   `npm install @firestore-facade/cli --save-dev`
+2. Add the node.js library: `npm install @firestore-facade/server`
 
-Or, if you prefer to use Yarn:
+### 2. Configure Database Document Types
 
-1. `yarn add firestore-facade`
-2. `yarn add firestore-facade-cli ts-node --dev`
-
-Currently ts-node is required because the `generate-facade` script tries to
-resolve the ts-node loader from the environment where you execute the command. I
-hope to find a way to make the command self-contained in the future.
-
-### 2. Configure The Document Type Mapping
-
-In your repository, create a configuration file to be consumed by the facade
+In your repository, create a configuration file for the facade boilerplate
 generator. It can be named anything and placed anywhere. In this file you create
 a **default export** object using a `root` and optionally a `sub` property as
 shown below.

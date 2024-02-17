@@ -1,8 +1,8 @@
 node_modules
-/credentials
 dist
-build
+credentials
 *.tsbuildinfo
+*.log
 .env
 .env.*
 .turbo

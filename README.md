@@ -11,62 +11,31 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 
 ## Packages
 
-- [firestore-facade](./packages/facade/README.md) The Firestore Facade API for
+- [@firestore-facade/server](./packages/facade/README.md): The Firestore Facade server API for
   Node.js
-- [firestore-facade-cli](./packages/cli/README.md) The command-line tool
-  required to generate the custom facade code based on your configuration
 
 ## Apps
+- [@firestore-facade/cli](./packages/cli/README.md): The command-line tool
+  for generating the facade boilerplate
 
-- [Node.js Example](./apps/example-nodejs/README.md)
 
-## TODO v1.0
-
-- [x] Add strict typing for `update` method
-- [x] Generate facade factory function based on collection config
-- [x] Convert to monorepo with separate CLI and examples packages
-- [x] Implement CLI for facade generator
-- [x] Use peer-dependencies where appropriate
-- [x] Remove need for other dependencies
-- [x] Improve and type the collections configuration
-- [x] Test support for non-ESM client environment
-- [x] Test and support FieldValue operations for increment and arrays etc
-- [x] Test and support transactions
-- [x] Implement query pagination via generator function
-- [x] Expose field value helpers via package
-- [ ] Start using changesets
-- [ ] Move CLI generate functions to facade package and define dependency
-- [ ] Allow limit to be used on getDocuments-type functions, overriding batch
-      size if needed
-- [ ] See if we can type ref.update and ref.set
-- [ ] Consider getIfExist/Possibly, delete, batchedDelete
-- [ ] Consider adding getFirst (likely not needed if limit can be used in
-      queries)
-- [ ] Document all API methods
-- [ ] Add tests using firestore emulator. Not strictly necessary IMO since the
-      code is a only a thin wrapper around the official Firestore API
-- [ ] Make sure CLI works on Windows and Linux
-
-## Future Ambitions
-
-- Add support for Cloud Firestore (instead of Firebase Firestore)
-- Create a package for web clients based on the same concept
+## Examples
+- [node](./apps/example-nodejs/README.md): A Node.js example showcasing the use of `@firestore-facade/cli` and `s@firestore-facade/server`.
 
 ## Supported Platforms
 
-At the moment this project focusses solely on Node.js using the
+At the moment this project focusses on Node.js using the
 [firebase-admin](https://github.com/firebase/firebase-admin-node) client, and
 the most of the code is providing patterns that are useful for backend
 applications.
 
-It should be possible to make this compatible with the
+In the future this should be made compatible with the
 [Cloud Firestore](https://github.com/googleapis/nodejs-firestore) with little
 modification, because both are technically the same product.
 
-Porting the concept to the Firebase web client should also be possible, however
-it would not be a one-on-one port of all methods as typically you would use
-different patterns in a front-end application and also not all of the used
-functionality of the `firebase-admin` package is available for web environments.
+Applying same the concept to the Firebase web client should also be possible, however
+it would probably not be trivial because not all of the used
+functionality of the `firebase-admin` package is available in the web client.
 
 I plan to investigate if the concept is also feasible for a web and I would be
 specifically interested in using it for React hooks.

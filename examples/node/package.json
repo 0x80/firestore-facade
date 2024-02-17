@@ -1,7 +1,7 @@
 {
-  "name": "@firestore-facade/example-server",
+  "name": "@repo/example-node",
   "version": "0.0.0",
-  "description": "An example application using firestore-facade",
+  "description": "A Node.js example application",
   "private": true,
   "keywords": [
     "firebase",
@@ -14,7 +14,7 @@
     "url": "https://github.com/0x80/firestore-facade"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "type": "module",
   "scripts": {
@@ -24,11 +24,13 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "dependencies": {
-    "firebase-admin": "^10.0.0",
-    "@firestore-facade/server": "*"
+    "@firestore-facade/server": "*",
+    "firebase-admin": "^10.0.0"
   },
   "devDependencies": {
+    "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
+    "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",

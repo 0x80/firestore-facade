@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import prettier from "prettier";
 import { CollectionsConfig } from "./types";
 import { assert, createLogger, Logger } from "./utils";
@@ -53,13 +53,13 @@ export async function generateFacade(
   const code = `
     /**
      * This file was generated ${now.toLocaleString()} by the
-     * \`generate-facade\` command, and should never be edited manually.
+     * \`generate-facade\` command, and should not be edited manually.
      *
-     * If your database document types have changed since, you should update
+     * Whenever your database document types change, you can update
      * your facade configuration file and re-execute the code generator from the
-     * command-line, which will then update this file accordingly.
+     * command-line, which in turn will update this file accordingly.
      *
-     * Depending on your repository, the command could be:
+     * Depending on your setup, the command would be something like:
      * \`npx generate-facade src/facade-config.ts\`
      */
     import {
@@ -89,7 +89,7 @@ export async function generateFacade(
     prettier.format(code, { parser: "typescript", trailingComma: "all" })
   );
 
-  log.success("Facade code is available at:", outputFilePath);
+  log.success("Successfully generated facade code at:", outputFilePath);
 }
 
 function generateCollectionsCode(config: CollectionsConfig, log: Logger) {

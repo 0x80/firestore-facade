@@ -1,6 +1,6 @@
 {
   "name": "@firestore-facade/cli",
-  "version": "0.1.11",
+  "version": "0.0.0-0",
   "description": "The facade generator CLI",
   "keywords": [
     "firebase",
@@ -12,25 +12,20 @@
     "url": "https://github.com/0x80/firestore-facade"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "files": [
-    "dist",
-    "README.md"
+    "dist"
   ],
   "type": "module",
   "scripts": {
-    "build": "tsc"
+    "build": "tsup-node",
+    "dev": "tsup-node --watch"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
   "bin": {
-    "generate-facade": "dist/cli.js",
-    "generate-facade-bin": "bin/ts-node-esm-cli.sh"
-  },
-  "devDependencies": {
-    "@types/node": "^16.11.12",
-    "@types/prettier": "^2.4.2"
+    "generate-facade": "dist/cli.js"
   },
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
@@ -40,5 +35,13 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.5.2",
     "yoctocolors": "^0.2.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "*",
+    "@types/node": "^16.11.12",
+    "@types/prettier": "^2.4.2",
+    "eslint": "^8.56.0",
+    "eslint-config-0x80": "^0.0.0",
+    "tsup": "^8.0.2"
   }
 }

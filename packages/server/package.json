@@ -1,6 +1,6 @@
 {
   "name": "@firestore-facade/server",
-  "version": "0.1.7",
+  "version": "0.0.0-0",
   "description": "A simplified, strongly-typed, zero-dependency API for Typescript projects using Firestore",
   "keywords": [
     "firebase",
@@ -34,7 +34,9 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "devDependencies": {
+    "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
+    "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
