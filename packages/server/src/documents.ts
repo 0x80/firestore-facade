@@ -18,7 +18,7 @@ export function documentFromSnapshot<T>(snapshot: firestore.DocumentSnapshot) {
 }
 
 export async function getDocument<T>(
-  ref: FirebaseFirestore.DocumentReference,
+  ref: FirebaseFirestore.DocumentReference
 ): Promise<FirestoreDocument<T>> {
   const snapshot = await ref.get();
 
@@ -28,7 +28,7 @@ export async function getDocument<T>(
 }
 
 export async function getDocuments<T>(
-  query: firestore.Query<firestore.DocumentData>,
+  query: firestore.Query<firestore.DocumentData>
 ): Promise<FirestoreDocument<T>[]> {
   const finalQuery = query.limit(BATCH_SIZE);
 
@@ -36,7 +36,7 @@ export async function getDocuments<T>(
 }
 
 export async function* genGetDocuments<T>(
-  query: firestore.Query<firestore.DocumentData>,
+  query: firestore.Query<firestore.DocumentData>
 ): AsyncGenerator<FirestoreDocument<T>[]> {
   let startAfterSnapshot: FirebaseFirestore.QueryDocumentSnapshot | undefined;
 
@@ -67,7 +67,7 @@ export async function* genGetDocuments<T>(
 
 export async function getDocumentsWithSelect<T, K extends keyof T>(
   query: firestore.Query<firestore.DocumentData>,
-  selectFields: readonly K[],
+  selectFields: readonly K[]
 ): Promise<FirestoreDocument<Pick<T, K>>[]> {
   const finalQuery = query
     .limit(BATCH_SIZE)
@@ -78,7 +78,7 @@ export async function getDocumentsWithSelect<T, K extends keyof T>(
 
 export async function* genGetDocumentsWithSelect<T, K extends keyof T>(
   query: firestore.Query<firestore.DocumentData>,
-  selectFields: readonly K[],
+  selectFields: readonly K[]
 ): AsyncGenerator<FirestoreDocument<Pick<T, K>>[]> {
   const finalQuery = query.select(...(selectFields as unknown as string[]));
 
@@ -86,7 +86,7 @@ export async function* genGetDocumentsWithSelect<T, K extends keyof T>(
 }
 
 async function _getDocumentsBatch<T>(
-  query: firestore.Query,
+  query: firestore.Query
 ): Promise<FirestoreDocument<T>[]> {
   const snapshot = await query.get();
 
@@ -101,9 +101,7 @@ async function _getDocumentsBatch<T>(
   const numRead = snapshot.size;
 
   if (process.env.VERBOSE) {
-    /**
-     * Log some information about count and pagination
-     */
+    /** Log some information about count and pagination */
     console.log(`Read ${numRead} records, until ${lastDoc.id}`);
   }
 
@@ -111,16 +109,14 @@ async function _getDocumentsBatch<T>(
     return results;
   } else {
     const nextQuery = query.startAfter(lastDoc);
-    /**
-     * Return results with tail recursion
-     */
+    /** Return results with tail recursion */
     return results.concat(await _getDocumentsBatch<T>(nextQuery));
   }
 }
 
 export async function getDocumentFromTransaction<T>(
   transaction: FirebaseFirestore.Transaction,
-  ref: FirebaseFirestore.DocumentReference,
+  ref: FirebaseFirestore.DocumentReference
 ) {
   const doc = await transaction.get(ref);
 
@@ -135,7 +131,7 @@ export async function getDocumentFromTransaction<T>(
  */
 export async function getDocumentsFromTransaction<T>(
   transaction: FirebaseFirestore.Transaction,
-  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>,
+  query: FirebaseFirestore.Query<FirebaseFirestore.DocumentData>
 ): Promise<FirestoreDocument<T>[]> {
   const snapshot = await transaction.get(query);
 
@@ -158,7 +154,7 @@ export async function getDocumentsFromTransactionWithSelect<
 >(
   transaction: FirebaseFirestore.Transaction,
   query: firestore.Query<firestore.DocumentData>,
-  selectFields: readonly K[],
+  selectFields: readonly K[]
 ): Promise<FirestoreDocument<Pick<T, K>>[]> {
   const finalQuery = query.select(...(selectFields as unknown as string[]));
 

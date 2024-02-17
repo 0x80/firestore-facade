@@ -59,8 +59,8 @@ At the moment this project focusses solely on Node.js using the
 the most of the code is providing patterns that are useful for backend
 applications.
 
-It should be possible to make this compatible with the [Cloud
-Firestore](https://github.com/googleapis/nodejs-firestore) with little
+It should be possible to make this compatible with the
+[Cloud Firestore](https://github.com/googleapis/nodejs-firestore) with little
 modification, because both are technically the same product.
 
 Porting the concept to the Firebase web client should also be possible, however

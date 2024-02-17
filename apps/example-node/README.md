@@ -40,5 +40,5 @@ accordingly.
 
 ## Documentation
 
-For more information please read the [firestore-facade
-documentation](/packages/facade/README.md).
+For more information please read the
+[firestore-facade documentation](/packages/facade/README.md).

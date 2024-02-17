@@ -14,7 +14,7 @@ import { FieldPaths } from "./types";
 
 export function createCollectionMethods<T extends object>(
   db: firestore.Firestore,
-  collectionPath: string,
+  collectionPath: string
 ) {
   return {
     add(data: T) {
@@ -45,11 +45,11 @@ export function createCollectionMethods<T extends object>(
      */
     queryAndSelect<K extends keyof T>(
       fn: (ref: firestore.CollectionReference) => firestore.Query,
-      selectFields: readonly K[],
+      selectFields: readonly K[]
     ) {
       return getDocumentsWithSelect<T, K>(
         fn(db.collection(collectionPath)),
-        selectFields,
+        selectFields
       );
     },
 
@@ -69,11 +69,11 @@ export function createCollectionMethods<T extends object>(
      */
     genQueryAndSelect<K extends keyof T>(
       fn: (ref: firestore.CollectionReference) => firestore.Query,
-      selectFields: readonly K[],
+      selectFields: readonly K[]
     ) {
       return genGetDocumentsWithSelect<T, K>(
         fn(db.collection(collectionPath)),
-        selectFields,
+        selectFields
       );
     },
   };
@@ -82,13 +82,13 @@ export function createCollectionMethods<T extends object>(
 export function createTransactionCollectionMethods<T extends object>(
   t: firestore.Transaction,
   db: firestore.Firestore,
-  collectionPath: string,
+  collectionPath: string
 ) {
   return {
     get(documentId: string) {
       return getDocumentFromTransaction<T>(
         t,
-        db.collection(collectionPath).doc(documentId),
+        db.collection(collectionPath).doc(documentId)
       );
     },
 
@@ -105,7 +105,7 @@ export function createTransactionCollectionMethods<T extends object>(
     query(fn: (ref: firestore.CollectionReference) => firestore.Query) {
       return getDocumentsFromTransaction<T>(
         t,
-        fn(db.collection(collectionPath)),
+        fn(db.collection(collectionPath))
       );
     },
 
@@ -115,12 +115,12 @@ export function createTransactionCollectionMethods<T extends object>(
      */
     queryAndSelect<K extends keyof T>(
       fn: (ref: firestore.CollectionReference) => firestore.Query,
-      selectFields: readonly K[],
+      selectFields: readonly K[]
     ) {
       return getDocumentsFromTransactionWithSelect<T, K>(
         t,
         fn(db.collection(collectionPath)),
-        selectFields,
+        selectFields
       );
     },
   };

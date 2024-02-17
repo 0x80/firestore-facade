@@ -26,7 +26,7 @@ const cli = meow(
         alias: "v",
       },
     },
-  },
+  }
 );
 
 const [configFilePath] = cli.input;

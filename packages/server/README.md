@@ -130,8 +130,8 @@ Below you will find some example code calling the different API methods.
 Detailed documentation will follow later but most of it should look very
 familiar if you have experience with Firestore.
 
-You can find the complete source code in the [nodejs example
-app](./src/apps/example-nodejs)
+You can find the complete source code in the
+[nodejs example app](./src/apps/example-nodejs)
 
 ```ts
 /**
@@ -150,7 +150,8 @@ import {
 export async function example() {
   /**
    * We import the facade factory function, which was generated based on the
-   * config file in this directory, and use that to wrap the firestore instance.
+   * config file in this directory, and use that to wrap the firestore
+   * instance.
    */
   const db = createFacade(firestore);
 
@@ -225,7 +226,7 @@ export async function example() {
    */
   {
     const docs = await db.athletes.query((ref) =>
-      ref.where("skills.c", "==", true),
+      ref.where("skills.c", "==", true)
     );
 
     console.log(`Retrieved ${docs.length} documents`);
@@ -239,15 +240,13 @@ export async function example() {
   {
     const docs = await db.athletes.queryAndSelect(
       (ref) => ref.where("updated_at", "<", new Date()),
-      ["name", "skills"],
+      ["name", "skills"]
     );
 
     docs.forEach((doc) => console.log(doc.data.name, doc.data.skills));
   }
 
-  /**
-   * Using transactions
-   */
+  /** Using transactions */
   await firestore.runTransaction(async (transaction) => {
     const t = db.useTransaction(transaction);
 
@@ -256,7 +255,7 @@ export async function example() {
     console.log(doc.data);
 
     const docs = await t.athletes.query((ref) =>
-      ref.where("skills.c", "==", true),
+      ref.where("skills.c", "==", true)
     );
 
     console.log(`Retrieved ${docs.length} documents`);
@@ -277,13 +276,13 @@ export async function example() {
    */
   for await (const documents of db.athletes.genQueryAndSelect(
     (ref) => ref.orderBy("updated_at", "desc"),
-    ["name", "updated_at"],
+    ["name", "updated_at"]
   )) {
     console.log(
       documents.map((x) => [
         x.data.name,
         x.data.updated_at?.toDate().toISOString(),
-      ]),
+      ])
     );
   }
 }

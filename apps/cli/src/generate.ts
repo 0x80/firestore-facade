@@ -11,7 +11,7 @@ const firestoreTypeNames = {
 
 export async function generateFacade(
   configFilePath: string,
-  flags: { verbose?: boolean } = {},
+  flags: { verbose?: boolean } = {}
 ) {
   const log = createLogger(flags.verbose);
 
@@ -23,7 +23,7 @@ export async function generateFacade(
 
   assert(
     configModuleContent.default,
-    "Failed to find a default export in the configuration file",
+    "Failed to find a default export in the configuration file"
   );
 
   let config = configModuleContent.default;
@@ -40,7 +40,7 @@ export async function generateFacade(
 
   assert(
     config.root,
-    "Failed to find a root property in the configuration object",
+    "Failed to find a root property in the configuration object"
   );
 
   const { name: configFileName, dir: configFileDirectory } =
@@ -86,7 +86,7 @@ export async function generateFacade(
      * We could allow the user passing prettier options, but I figure you might
      * as wel let you IDE reformat the file to match your project's settings.
      */
-    prettier.format(code, { parser: "typescript", trailingComma: "all" }),
+    prettier.format(code, { parser: "typescript", trailingComma: "all" })
   );
 
   log.success("Facade code is available at:", outputFilePath);
@@ -125,13 +125,13 @@ function generateCollectionsCode(config: CollectionsConfig, log: Logger) {
 function generateSubCollectionsCode(
   rootCollectionName: string,
   subCollectionNames: string[],
-  log: Logger,
+  log: Logger
 ) {
   let code = "";
 
   for (const collectionName of subCollectionNames) {
     log.debug(
-      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`,
+      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`
     );
 
     code = `${code}
@@ -147,7 +147,7 @@ function generateSubCollectionsCode(
 
 function generateTransactionCollectionsCode(
   config: CollectionsConfig,
-  log: Logger,
+  log: Logger
 ) {
   const rootCollectionNames = Object.keys(config.root);
 
@@ -168,7 +168,7 @@ function generateTransactionCollectionsCode(
           ${generateTransactionSubCollectionsCode(
             collectionName,
             subCollectionNames,
-            log,
+            log
           )}
         }),
       },`;
@@ -187,13 +187,13 @@ function generateTransactionCollectionsCode(
 function generateTransactionSubCollectionsCode(
   rootCollectionName: string,
   subCollectionNames: string[],
-  log: Logger,
+  log: Logger
 ) {
   let code = "";
 
   for (const collectionName of subCollectionNames) {
     log.debug(
-      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`,
+      `Adding /sub collection:\t ${rootCollectionName}/${collectionName}`
     );
 
     code = `${code}

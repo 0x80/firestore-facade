@@ -3,7 +3,7 @@
  * FieldValue methods. They are optional since they contain no actual runtime
  * logic and only alter the types their values to make the TS compiler happy.
  *
- * @TODO provide these helpers via the facade package exports
+ * @todo Provide these helpers via the facade package exports
  */
 import admin from "firebase-admin";
 
