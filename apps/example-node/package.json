@@ -1,5 +1,5 @@
 {
-  "name": "firestore-facade-example-nodejs",
+  "name": "@firestore-facade/example-server",
   "version": "0.0.0",
   "description": "An example application using firestore-facade",
   "private": true,
@@ -18,7 +18,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "npm run build && dotenv node --experimental-specifier-resolution=node dist/index.js",
+    "start": "npm run build && dotenv -e .env -- node --experimental-specifier-resolution=node dist/index.js",
     "build": "tsc"
   },
   "author": "Thijs Koerselman",

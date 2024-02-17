@@ -35,8 +35,10 @@ Currently only Node.js is supported, and the CLI has been tested only on MacOS.
 - [x] Implement query pagination via generator function
 - [x] Expose field value helpers via package
 - [ ] Start using changesets
+- [ ] Move CLI generate functions to facade package and define dependency
 - [ ] Allow limit to be used on getDocuments-type functions, overriding batch
       size if needed
+- [ ] See if we can type ref.update and ref.set
 - [ ] Consider getIfExist/Possibly, delete, batchedDelete
 - [ ] Consider adding getFirst (likely not needed if limit can be used in
       queries)

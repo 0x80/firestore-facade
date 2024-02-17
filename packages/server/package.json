@@ -1,5 +1,5 @@
 {
-  "name": "firestore-facade",
+  "name": "@firestore-facade/server",
   "version": "0.1.7",
   "description": "A simplified, strongly-typed, zero-dependency API for Typescript projects using Firestore",
   "keywords": [
@@ -14,8 +14,7 @@
     "url": "https://github.com/0x80/firestore-facade"
   },
   "files": [
-    "dist",
-    "README.md"
+    "dist"
   ],
   "type": "module",
   "main": "./dist/index.js",

@@ -1,19 +1,7 @@
 {
-  "name": "firestore-facade-packages",
-  "version": "0.0.0",
-  "private": true,
   "description": "A monorepo for firestore-facade related packages",
   "author": "Thijs Koerselman",
   "license": "MIT",
-  "engines": {
-    "npm": ">=7.0.0",
-    "pnpm": ">=3.7.0",
-    "node": ">=14.0.0"
-  },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "scripts": {
     "build": "turbo run build"
   },
@@ -21,7 +9,6 @@
     "turbo": "^1.1.6",
     "typescript": "^4.5.2"
   },
-  "packageManager": "npm@8.5.0",
   "dependencies": {
     "@changesets/cli": "^2.21.1"
   }

@@ -1,5 +1,5 @@
 {
-  "name": "firestore-facade-cli",
+  "name": "@firestore-facade/cli",
   "version": "0.1.11",
   "description": "The facade generator CLI",
   "keywords": [
