@@ -4,6 +4,7 @@
     "target": "esnext",
     "rootDir": "src",
     "outDir": "dist",
+    "composite": false, // enable later when generating dts from tsc
     "paths": {
       "~/*": ["./*"]
     }

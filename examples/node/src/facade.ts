@@ -12,7 +12,7 @@
 import {
   createCollectionMethods,
   createTransactionCollectionMethods,
-} from "firestore-facade";
+} from "@firestore-facade/server";
 import def from "./facade-config.js"; // Use .js to support ESM targets
 
 export function createFacade(db: FirebaseFirestore.Firestore) {

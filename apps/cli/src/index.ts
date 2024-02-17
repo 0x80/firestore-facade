@@ -1,5 +1,4 @@
-#!/usr/bin/env node --experimental-specifier-resolution=node --loader ts-node/esm
-
+#!/usr/bin/env node
 import meow from "meow";
 import path from "path";
 import { generateFacade } from "./generate.js";

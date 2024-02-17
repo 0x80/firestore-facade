@@ -20,12 +20,16 @@
   "type": "module",
   "scripts": {
     "build": "tsup-node",
-    "dev": "tsup-node --watch"
+    "dev": "tsup-node --watch",
+    "generate": "tsx ./src/index.ts",
+    "type:check": "tsc --noEmit",
+    "test": "vitest",
+    "lint": "prettier --check ."
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
   "bin": {
-    "generate-facade": "dist/cli.js"
+    "generate-facade": "dist/index.js"
   },
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
@@ -40,8 +44,10 @@
     "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
     "@types/prettier": "^2.4.2",
+    "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1"
   }
 }

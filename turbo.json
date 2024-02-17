@@ -8,10 +8,14 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
+    "type:check": {
+      "outputs": []
+    },
     "lint": {
       "outputs": []
     },
     "dev": {
+      "persistent": true,
       "cache": false
     }
   }

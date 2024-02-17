@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
+    "module": "esnext",
     "target": "esnext",
     "rootDir": "src",
     "outDir": "dist",
@@ -10,4 +11,3 @@
   },
   "include": ["src"]
 }
-

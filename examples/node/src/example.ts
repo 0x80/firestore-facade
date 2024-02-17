@@ -7,7 +7,7 @@ import {
   deleteField,
   incrementField,
   serverTimestamp,
-} from "firestore-facade";
+} from "@firestore-facade/server";
 import { createFacade } from "./facade.js";
 import { firestore } from "./firestore-client.js";
 

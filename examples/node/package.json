@@ -18,8 +18,11 @@
   },
   "type": "module",
   "scripts": {
-    "start": "npm run build && dotenv -e .env -- node --experimental-specifier-resolution=node dist/index.js",
-    "build": "tsc"
+    "build": "tsup-node",
+    "dev": "tsup-node --watch",
+    "type:check": "tsc --noEmit",
+    "test": "vitest",
+    "lint": "prettier --check ."
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
@@ -30,6 +33,7 @@
   "devDependencies": {
     "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
+    "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
     "tsup": "^8.0.2",

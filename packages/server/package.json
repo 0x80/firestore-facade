@@ -25,17 +25,17 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup-node",
-    "build:watch": "tsup-node --watch",
+    "dev": "tsup-node --watch",
+    "type:check": "tsc --noEmit",
     "test": "vitest",
-    "format": "prettier --write .",
-    "lint:format": "prettier --check .",
-    "type-check": "tsc --noEmit"
+    "lint": "prettier --check ."
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
   "devDependencies": {
     "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
+    "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
     "tsup": "^8.0.2",

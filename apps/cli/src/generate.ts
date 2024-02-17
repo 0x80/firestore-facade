@@ -65,7 +65,7 @@ export async function generateFacade(
     import {
       createCollectionMethods,
       createTransactionCollectionMethods
-    } from "firestore-facade";
+    } from "@firestore-facade/server";
     import def from "./${configFileName}.js"; // Use .js to support ESM targets
 
     export function createFacade(db: ${
