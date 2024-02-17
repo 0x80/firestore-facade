@@ -1,28 +1,23 @@
 # Firestore Façade Packages
 
+> !!WARNING This code is not ready for public consumption just yet.
+
 A simplified, strongly-typed, zero-dependency API for Typescript projects using
 Firestore.
 
-See the [Facade package README](./packages/facade/README.md) for more details.
-
-## Disclaimer
-
-Currently only Node.js is supported, and the CLI has been tested only on MacOS.
+See the [Server package README](./packages/facade/README.md) for more details.
 
 ## Packages
 
-- [@firestore-facade/server](./packages/facade/README.md): The Firestore Facade
-  server API for Node.js
-
-## Apps
-
-- [@firestore-facade/cli](./packages/cli/README.md): The command-line tool for
+- [@firestore-facade/cli](./apps/cli/README.md): The command-line tool for
   generating the facade boilerplate
+- [@firestore-facade/server](./packages/server/README.md): The Firestore Facade
+  server API for Node.js
 
 ## Examples
 
-- [node](./apps/example-nodejs/README.md): A Node.js example showcasing the use
-  of `@firestore-facade/cli` and `s@firestore-facade/server`.
+- [node](./examples/node/README.md): A Node.js example showcasing the use of
+  `@firestore-facade/cli` and `s@firestore-facade/server`.
 
 ## Supported Platforms
 
