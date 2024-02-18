@@ -1,19 +1,19 @@
 /**
- * This file was generated 3/22/2022, 5:45:50 PM by the `generate-facade`
- * command, and should never be edited manually.
+ * This file was generated 2/18/2024, 9:49:20 PM by the `generate-facade`
+ * command, and should not be edited manually.
  *
- * If your database document types have changed since, you should update your
- * facade configuration file and re-execute the code generator from the
- * command-line, which will then update this file accordingly.
+ * Whenever your database document types change, you can update your facade
+ * configuration file and re-execute the code generator from the command-line,
+ * which in turn will update this file accordingly.
  *
- * Depending on your repository, the command could be: `npx generate-facade
- * src/facade-config.ts`
+ * Depending on your setup, the command would be something like: `npx
+ * generate-facade src/facade-config.ts`
  */
 import {
   createCollectionMethods,
   createTransactionCollectionMethods,
 } from "@firestore-facade/server";
-import def from "./facade-config.js"; // Use .js to support ESM targets
+import def from "./facade.config.js"; // Use .js to support ESM targets
 
 export function createFacade(db: FirebaseFirestore.Firestore) {
   return {

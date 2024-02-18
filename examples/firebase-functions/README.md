@@ -1,16 +1,14 @@
-# Firestore Facade Node.js Example
+# Node.js Example
 
 > I don't think it is particularly useful to run this example code, and instead,
 > I advise you to just read through the it. Running the code will inject some
 > documents into your Firestore database, and that might not be what you want
 > since you'll have to clean it up again.
 
-## Install
+## Usage
 
-From the **root of the monorepo** run:
-
-1. `npm install`
-2. `npm run build`
+1. `pnpm install`
+2. `pnpm dev`
 
 ## Configure Credentials
 
@@ -27,7 +25,7 @@ GOOGLE_APPLICATION_CREDENTIALS="/Users/me/development/firestore-facade/credentia
 
 ## Run Example Code
 
-Running `npm run start` from the `app/example-nodejs` folder will execute the
+Running `pnpm start` from the `app/example-nodejs` folder will execute the
 example code and output some data to the console. This should illustrate that
 the facade is working correctly.
 

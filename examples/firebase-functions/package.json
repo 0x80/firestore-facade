@@ -18,8 +18,8 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsup-node",
-    "dev": "tsup-node --watch",
+    "run": "tsx src/run-db-operations.ts",
+    "emulate": "firebase emulators:start --project demo-firestore-facade",
     "type:check": "tsc --noEmit",
     "test": "vitest",
     "lint": "prettier --check ."
@@ -28,15 +28,17 @@
   "license": "MIT",
   "dependencies": {
     "@firestore-facade/server": "*",
-    "firebase-admin": "^10.0.0"
+    "firebase-admin": "^10.0.0",
+    "tsx": "^4.7.1"
   },
   "devDependencies": {
+    "@firestore-facade/cli": "*",
     "@repo/typescript-config": "*",
     "@types/node": "^16.11.12",
     "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
-    "tsup": "^8.0.2",
+    "firebase-tools": "^13.3.0",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   }

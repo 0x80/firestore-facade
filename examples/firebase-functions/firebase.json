@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "source": "./dist",
+    "runtime": "nodejs20",
+    "predeploy": ["build"]
+  },
+  "emulators": {
+    "ui": {
+      "enabled": true
+    },
+    "singleProjectMode": true,
+    "firestore": {
+      "port": 8080
+    }
+  }
+}

@@ -8,16 +8,14 @@ import {
   incrementField,
   serverTimestamp,
 } from "@firestore-facade/server";
-import { createFacade } from "./facade.js";
-import { firestore } from "./firestore-client.js";
+import { db, firestore } from "./firestore/client.js";
 
-export async function example() {
+export async function runDbOperations() {
   /**
    * We import the facade factory function, which was generated based on the
    * config file in this directory, and use that to wrap the firestore
    * instance.
    */
-  const db = createFacade(firestore);
 
   /**
    * Add and set will enforce the exact document type for each collection. Each
@@ -112,19 +110,19 @@ export async function example() {
 
   /** Using transactions */
   await firestore.runTransaction(async (transaction) => {
-    const t = db.useTransaction(transaction);
+    const dbt = db.useTransaction(transaction);
 
-    const doc = await t.athletes.get(ref.id);
+    const doc = await dbt.athletes.get(ref.id);
 
     console.log(doc.data);
 
-    const docs = await t.athletes.query((ref) =>
+    const docs = await dbt.athletes.query((ref) =>
       ref.where("skills.c", "==", true)
     );
 
     console.log(`Retrieved ${docs.length} documents`);
 
-    await t.athletes.update(ref.id, {
+    await dbt.athletes.update(ref.id, {
       "skills.d": arrayUnion("transaction_win"),
     });
   });
@@ -150,3 +148,9 @@ export async function example() {
     );
   }
 }
+
+console.log("Running example code...");
+
+await runDbOperations();
+
+console.log("Example finished successfully");

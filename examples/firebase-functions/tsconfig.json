@@ -8,5 +8,5 @@
       "~/*": ["./*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/firestore/facade.config.ts"]
 }

@@ -15,12 +15,12 @@
     "node": ">=18"
   },
   "files": [
-    "dist"
+    "src"
   ],
   "type": "module",
   "scripts": {
-    "build": "tsup-node",
-    "dev": "tsup-node --watch",
+    "xbuild": "tsup-node",
+    "xdev": "tsup-node --watch",
     "generate": "tsx ./src/index.ts",
     "type:check": "tsc --noEmit",
     "test": "vitest",
@@ -29,7 +29,7 @@
   "author": "Thijs Koerselman",
   "license": "MIT",
   "bin": {
-    "generate-facade": "dist/index.js"
+    "generate-facade": "./bin/generate-facade.sh"
   },
   "dependencies": {
     "@sindresorhus/is": "^4.2.0",
@@ -37,6 +37,7 @@
     "meow": "^10.1.2",
     "prettier": "^2.5.0",
     "ts-node": "^10.4.0",
+    "tsx": "^4.7.1",
     "typescript": "^4.5.2",
     "yoctocolors": "^0.2.0"
   },
@@ -47,7 +48,6 @@
     "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
     "eslint-config-0x80": "^0.0.0",
-    "tsup": "^8.0.2",
-    "tsx": "^4.7.1"
+    "tsup": "^8.0.2"
   }
 }

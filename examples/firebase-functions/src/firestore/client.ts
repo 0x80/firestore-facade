@@ -7,6 +7,7 @@
  * All firestore-facade requires is a handle to your firestore instance.
  */
 import admin from "firebase-admin";
+import { createFacade } from "./facade";
 
 export const adminApp = admin.initializeApp();
 
@@ -20,3 +21,5 @@ firestore.settings({
   timestampsInSnapshots: true,
   ignoreUndefinedProperties: true,
 });
+
+export const db = createFacade(firestore);
