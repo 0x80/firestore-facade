@@ -1,8 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
 import prettier from "prettier";
-import { CollectionsConfig } from "./types";
-import { assert, createLogger, Logger } from "./utils";
+import type { CollectionsConfig } from "./types";
+import type { Logger } from "./utils";
+import { assert, createLogger } from "./utils";
 
 const firestoreTypeNames = {
   nodejs: "FirebaseFirestore.Firestore",
@@ -86,7 +87,7 @@ export async function generateFacade(
      * We could allow the user passing prettier options, but I figure you might
      * as wel let you IDE reformat the file to match your project's settings.
      */
-    prettier.format(code, { parser: "typescript", trailingComma: "all" })
+    await prettier.format(code, { parser: "typescript", trailingComma: "all" })
   );
 
   log.success("Successfully generated facade code at:", outputFilePath);

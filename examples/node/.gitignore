@@ -1,6 +1,5 @@
 node_modules
 dist
+.turbo
 *.log
-
-# Firebase cache
 .firebase/

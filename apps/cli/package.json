@@ -24,7 +24,7 @@
     "generate": "tsx ./src/index.ts",
     "type:check": "tsc --noEmit",
     "test": "vitest",
-    "lint": "prettier --check ."
+    "lint": "eslint . --max-warnings 0"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
@@ -32,22 +32,21 @@
     "generate-facade": "./bin/generate-facade.sh"
   },
   "dependencies": {
-    "@sindresorhus/is": "^4.2.0",
-    "firestore-facade": "*",
-    "meow": "^10.1.2",
-    "prettier": "^2.5.0",
-    "ts-node": "^10.4.0",
-    "tsx": "^4.7.1",
-    "typescript": "^4.5.2",
-    "yoctocolors": "^0.2.0"
+    "@sindresorhus/is": "^6.1.0",
+    "firestore-facade": "^0.1.7",
+    "meow": "^13.2.0",
+    "prettier": "^3.2.5",
+    "yoctocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@codecompose/eslint-config": "^1.0.0",
     "@repo/typescript-config": "*",
-    "@types/node": "^16.11.12",
-    "@types/prettier": "^2.4.2",
+    "@types/node": "^20.11.19",
+    "@types/prettier": "^3.0.0",
     "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
-    "eslint-config-0x80": "^0.0.0",
-    "tsup": "^8.0.2"
+    "tsup": "^8.0.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.3.3"
   }
 }

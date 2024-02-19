@@ -1,5 +1,11 @@
-import type { SetOptions } from "@google-cloud/firestore";
-import type { firestore } from "firebase-admin";
+import type {
+  CollectionReference,
+  Firestore,
+  Query,
+  SetOptions,
+  Transaction,
+  UpdateData,
+} from "firebase-admin/firestore";
 import {
   genGetDocuments,
   genGetDocumentsWithSelect,
@@ -10,10 +16,9 @@ import {
   getDocumentsFromTransactionWithSelect,
   getDocumentsWithSelect,
 } from "./documents.js";
-import { FieldPaths } from "./types";
 
 export function createCollectionMethods<T extends object>(
-  db: firestore.Firestore,
+  db: Firestore,
   collectionPath: string
 ) {
   return {
@@ -31,11 +36,11 @@ export function createCollectionMethods<T extends object>(
         : db.collection(collectionPath).doc(documentId).set(data);
     },
 
-    update(documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) {
+    update(documentId: string, data: UpdateData<T>) {
       return db.collection(collectionPath).doc(documentId).update(data);
     },
 
-    query(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+    query(fn: (ref: CollectionReference) => Query) {
       return getDocuments<T>(fn(db.collection(collectionPath)));
     },
 
@@ -44,7 +49,7 @@ export function createCollectionMethods<T extends object>(
      * document shape using Pick<T, K>
      */
     queryAndSelect<K extends keyof T>(
-      fn: (ref: firestore.CollectionReference) => firestore.Query,
+      fn: (ref: CollectionReference) => Query,
       selectFields: readonly K[]
     ) {
       return getDocumentsWithSelect<T, K>(
@@ -59,7 +64,7 @@ export function createCollectionMethods<T extends object>(
      * each batch of documents so that incremental processing can be done on
      * large collections.
      */
-    genQuery(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+    genQuery(fn: (ref: CollectionReference) => Query) {
       return genGetDocuments<T>(fn(db.collection(collectionPath)));
     },
 
@@ -68,7 +73,7 @@ export function createCollectionMethods<T extends object>(
      * similar to genQuery.
      */
     genQueryAndSelect<K extends keyof T>(
-      fn: (ref: firestore.CollectionReference) => firestore.Query,
+      fn: (ref: CollectionReference) => Query,
       selectFields: readonly K[]
     ) {
       return genGetDocumentsWithSelect<T, K>(
@@ -80,8 +85,8 @@ export function createCollectionMethods<T extends object>(
 }
 
 export function createTransactionCollectionMethods<T extends object>(
-  t: firestore.Transaction,
-  db: firestore.Firestore,
+  t: Transaction,
+  db: Firestore,
   collectionPath: string
 ) {
   return {
@@ -98,11 +103,11 @@ export function createTransactionCollectionMethods<T extends object>(
         : t.set(db.collection(collectionPath).doc(documentId), data);
     },
 
-    update(documentId: string, data: Partial<T> | Partial<FieldPaths<T>>) {
+    update(documentId: string, data: UpdateData<T>) {
       return t.update(db.collection(collectionPath).doc(documentId), data);
     },
 
-    query(fn: (ref: firestore.CollectionReference) => firestore.Query) {
+    query(fn: (ref: CollectionReference) => Query) {
       return getDocumentsFromTransaction<T>(
         t,
         fn(db.collection(collectionPath))
@@ -114,7 +119,7 @@ export function createTransactionCollectionMethods<T extends object>(
      * document shape using Pick<T, K>
      */
     queryAndSelect<K extends keyof T>(
-      fn: (ref: firestore.CollectionReference) => firestore.Query,
+      fn: (ref: CollectionReference) => Query,
       selectFields: readonly K[]
     ) {
       return getDocumentsFromTransactionWithSelect<T, K>(

@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import meow from "meow";
 import path from "path";
 import { generateFacade } from "./generate.js";

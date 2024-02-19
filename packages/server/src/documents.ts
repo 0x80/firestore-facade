@@ -3,11 +3,11 @@ import { assert, last } from "./utils.js";
 
 const BATCH_SIZE = 500;
 
-export interface FirestoreDocument<T> {
+export type FirestoreDocument<T> = {
   id: string;
   data: T;
   ref: firestore.DocumentReference;
-}
+};
 
 export function documentFromSnapshot<T>(snapshot: firestore.DocumentSnapshot) {
   return {

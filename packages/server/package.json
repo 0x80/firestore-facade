@@ -28,21 +28,21 @@
     "dev": "tsup-node --watch",
     "type:check": "tsc --noEmit",
     "test": "vitest",
-    "lint": "prettier --check ."
+    "lint": "eslint . --max-warnings 0"
   },
   "author": "Thijs Koerselman",
   "license": "MIT",
   "devDependencies": {
+    "@codecompose/eslint-config": "^1.0.0",
     "@repo/typescript-config": "*",
-    "@types/node": "^16.11.12",
+    "@types/node": "^20.11.19",
     "del-cli": "^5.1.0",
     "eslint": "^8.56.0",
-    "eslint-config-0x80": "^0.0.0",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
   },
   "peerDependencies": {
-    "firebase-admin": ">=9.0.0"
+    "firebase-admin": ">=12.0.0"
   }
 }
